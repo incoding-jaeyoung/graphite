@@ -1,0 +1,61 @@
+@charset "UTF-8";
+
+/* circular-Light */
+@font-face {
+  font-family:'circular';
+  font-style: normal;
+  src:local('※'),  
+  url(circular-normal.otf) format('otf');
+  font-weight: 400;
+}
+/* circular-Regular */
+@font-face {
+  font-family:'circular';
+  font-style: normal;
+  src:local('※'),  
+  url(circular-bold.otf) format('otf');
+  font-weight: 600;
+}
+/* circular-Bold */
+@font-face {
+  font-family:'circular';
+  font-style: normal;
+  src:local('※'),  
+  url(circular-black.otf) format('otf');
+  font-weight: 700;
+}
+
+
+/* Pretendard-Regular */
+@font-face {
+  font-family:'Hexaframe';
+  font-style: normal;
+  src:local('※'),  
+  url(HexaframeCF-Light.woff) format('woff');
+  font-weight: 400;
+}
+/* Pretendard-Medium */
+@font-face {
+  font-family:'Hexaframe';
+  font-style: normal;
+  src:local('※'),  
+  url(HexaframeCF-Regular.woff) format('woff');
+  font-weight: 500;
+}
+
+/* Pretendard-SemiBold */
+@font-face {
+  font-family:'Hexaframe';
+  font-style: normal;
+  src:local('※'),
+  url(HexaframeCF-Bold.woff) format('woff');
+  font-weight: 600;
+}
+/* Pretendard-Bold */
+@font-face {
+  font-family:'Hexaframe';
+  font-style: normal;
+  src:local('※'),
+  url(HexaframeCF-ExtraBold.woff) format('woff');
+  font-weight: 700;
+}
