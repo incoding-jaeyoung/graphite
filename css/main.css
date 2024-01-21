@@ -88,11 +88,11 @@
    font-size: 12px;
 }
 
-.video-info{position: absolute; z-index: 10; color: #fff; left: 0; bottom: 0; right: 0; padding: 2rem; display: flex; align-items:flex-end; justify-content:center; flex-direction: column;}
-.video-info dl{display: flex; width: 81rem; align-items: center;}
-.video-info dl dt{font-size: 4.2rem;}
-.video-info dl dd{font-size: 4.2rem; margin-left: 1rem;}
-.video-info p { width: 81rem; margin-top: 1rem;}
+.video-info{position: absolute; z-index: 10; color: #fff; left: 0; bottom: 0; right: 0; padding: 2rem; display: flex; align-items:center; align-items: flex-start;}
+.video-info dl{display: flex; text-transform: uppercase; font-size: 1.6rem; font-weight: 700; flex-direction: column;}
+.video-info dl dt{font-weight: 700; text-transform: uppercase; line-height: normal;}
+.video-info dl dd{font-weight: 700; text-transform: uppercase; line-height: normal;}
+.video-info p.num { width: 6.5rem; font-size: 1.6rem; font-family:'Hexaframe'; line-height: 100%; font-weight: 400;}
 .video-info p a{color: #fff;}
 .video-info p a img{margin-left: 0.8rem; height: 1.4rem; width: auto;}
 

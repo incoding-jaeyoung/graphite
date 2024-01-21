@@ -9,6 +9,7 @@ window.onload = function () {
         $('body').addClass('load')
         headerScroll()
         navActive()
+        overtext()
         $('.main-navigation .menu').on('click',function(){
             $(this).find('.navTrigger').toggleClass('active')
             $('#header').toggleClass('m-menu')
@@ -55,7 +56,7 @@ function pageTransitionIn(pageName) {
     const screenNum = document.querySelector('.loading-screen.' + pageName)
     navClose()
     return gsap
-    .to(screenNum, {delay:0, duration:0.6, scaleY: 1, transformOrigin: 'bottom left',opacity: 1,y: '-100vh',ease:"power1.in",})
+    .to(screenNum, {delay:0, duration:0.6, scaleY: 1, transformOrigin: 'bottom left',opacity: 1, width:'100vw', x: '0',ease:"power1.out",})
     
 }
 // Function to add and remove the page transition screen
@@ -65,29 +66,29 @@ function pageTransitionOut(container, pageName) {
     const screenNum = document.querySelector('.loading-screen.' + pageName)
   // GSAP methods can be chained and return directly a promise
   return gsap
-    .timeline({ delay: 0}) // More readable to put it here
+    .timeline({ delay:0.6}) // More readable to put it here
     .add('start') // Use a label to sync screen and content animation
     .call(contentReset, [container])
     .set(container.querySelector('.contents'), {
         duration: 0,
-        translateY: '80vh',
       })
     .to(screenNum, {
       duration:0.6,
-      y: '-200vh',
+      x: '-20vw',
+      width:'20vw',
       skewX: 0,
       transformOrigin: 'top left',
       ease:"power1.out",
     }, 'start')
     .to(container.querySelector('.contents'), {
       duration:0.6,
-      translateY: '0%',
+      translateX: '0%',
       opacity: 1,
       ease: "power1.out",
     }, 'start')
     .to(screenNum, {
         duration: 0,
-        y: '0',
+        x: '100vw',
         transformOrigin: 'top left',
       })
     .call(contentAnimation, [container])
@@ -156,11 +157,12 @@ $(function() {
                 $('#wrapper').removeClass('about-secton')
                 $('#wrapper').removeClass('contact-secton')
                 $('#wrapper').addClass('index-secton')
+                window.initMain();
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 headerScroll()
                 commonTween()
-                window.initMain();
+                
             },
             async once(data) {
                 $('#wrapper').addClass('index-secton')
@@ -516,12 +518,8 @@ function navActive(){
                 }else{
                     $('#wrapper').removeClass('work-secton')
                 }
+                
                 if(indexNum == 1){
-                    $('#wrapper').addClass('about-secton')
-                }else{
-                    $('#wrapper').removeClass('about-secton')
-                }
-                if(indexNum == 2){
                     $('#wrapper').addClass('contact-secton')
                 }else{
                     $('#wrapper').removeClass('contact-secton')
@@ -1057,6 +1055,54 @@ function work(){
 }
 
 
+/* 글자섞기 */
+function overtext(){
+    
+    var velocity = 50;
+	
+	var shuffleElement = $('.shuffle');
 
+	$.each( shuffleElement, function(index, item) {
+		$(item).attr('data-text', $(item).text());
+	});
+
+	var shuffle = function(o) {
+		for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+		return o;
+	};
+
+	var shuffleText = function(element, originalText) {
+		var elementTextArray = [];
+		var randomText = [];
+
+		for ( i=0;i<originalText.length;i++) {
+			elementTextArray.push(originalText.charAt([i]));
+		};
+
+		var repeatShuffle = function(times, index) {
+			if ( index == times ) {
+				element.text(originalText);
+				return;
+			} 
+
+			setTimeout( function() {
+				randomText = shuffle(elementTextArray);
+				for (var i=0;i<index;i++) {
+					randomText[i] = originalText[i];	
+				}
+				randomText = randomText.join('');
+				element.text(randomText);
+				index++;
+				repeatShuffle(times, index);
+			}, velocity);	
+		}
+		repeatShuffle(element.text().length, 0);
+	}
+
+	shuffleElement.mouseenter(function() {
+		shuffleText($(this), $(this).data('text'));
+        console.log('sdasda')
+	});
+}
 
 
