@@ -40,7 +40,7 @@ body.fixed{overflow: hidden;}
 .videoPlayer{position: relative; padding-bottom: 56.25%; padding-top: 3rem; height: 0; overflow: hidden;}
 .videoPlayer video{object-fit:cover; object-position: center; width: 100%;  width: 100%    !important; height: auto   !important;}
 .videoPlayer iframe{ object-fit:cover; object-position: center; width: 100%;}
-video[poster]{object-fit:contain;}
+video[poster]{object-fit:cover;}
 
 /* ===== Scrollbar CSS ===== */
   /* Firefox */
@@ -430,11 +430,11 @@ a:hover{color:inherit;}
  .footer h1{font-size: 2.4rem; font-weight: 700;}
   
   .contents{padding-top: 11.4rem; padding-left: 2rem; padding-right: 2rem;}
-.sound{position: absolute; right: 2rem; bottom: 2rem; z-index: 100;}
+.sound{position: absolute; right: 2rem; bottom: 2rem;}
 .sound button{ font-size: 1.6rem; color: #FFE587; text-transform: uppercase; font-family:'Hexaframe';}
 .sound button:last-of-type{display: none;}
-.sound.acitve button:first-of-type{display: none;}
-.sound.acitve button:last-of-type{display:block;}
+.sound.active button.on{display: none;}
+.sound.active button.off{display:block;}
   @media (max-width: 768px) {
     .contents{padding:5.4rem 1.2rem 0 1.2rem}
     #header {padding-bottom: 0rem;}
@@ -505,12 +505,51 @@ a:hover{color:inherit;}
   .video-list .swiper-slide.active .playtime{display:flex;}
   
   .work-contents{position: fixed;display: flex; position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 20; pointer-events: none;}
-  .work-contents .work-block{position: fixed;display: flex; pointer-events: none; width: 41.6rem; height: 23.4rem; left: 50%; top: 50%; transform: translateX(-50%) translateY(-50%); margin-top: 2.5rem; }
-  .work-contents .work-block .block-box{position: absolute; display: flex; pointer-events: none; background-color: #FFE587; width: 0%; height:100%; left: 0%; top: 0%;}
+  .work-contents.active{pointer-events: all;}
+  .work-contents .work-block{position: fixed; display: flex; width: 41.6rem; height: 23.4rem; left: 50%; top: 50%; transform:translate(-50%, -50%); margin-top: 2.5rem; }
+  .work-contents .work-block .block-box{position: absolute; display: flex; background-color: #FFE587; width: 0%; height:100%; left: 0%; top: 0%;}
+  .work-contents .work-detail{position: absolute; display: flex; left: 0; top: 0; bottom: 0; right:0; display: none; background-color: #fff;}
+  .work-contents.active .work-detail{display: flex;}
+  .work-contents .work-video{position: absolute; display: flex; left: 0; top: 0; bottom: 0; right:0;}
+  .work-contents .close{ position: absolute; right:2rem; }
+  .work-contents .close button{font-family:'Hexaframe'; -webkit-text-stroke: 0.1rem #FFE587; line-height: 100%; font-weight: 700; height: 5.4rem; font-size: 8rem; color: transparent; display: flex; letter-spacing:-0.3rem; mix-blend-mode: difference;}
+  .work-contents .work-detail .sound button{}
   
-
+  .detailSlider{display: flex; position: fixed; z-index: 20; left: 0; right: 0; top: 0; color: #FFE587; font-size: 1.6rem; text-transform: uppercase; top: 50%; transform: translateY(-50%);  pointer-events: all; overflow: hidden;}
+  .detailSlider *{ font-family:'Hexaframe'; font-weight: 700;}
+  .detailSlider .swiper{width:100%;}
+  .detailSlider .swiper-wrapper{}
+  .detailSlider .swiper-slide{width: 41.6rem;}
+  .detailSlider dl {height: 5.6rem; flex: none; display: flex; flex-direction: column; justify-content: flex-end; opacity: 0;}
+  .detailSlider dl dt{line-height: 100%; margin-bottom: 1.2rem;}
+  .detailSlider dl dd{}
+  .detailSlider .thumbnail{display: flex; height: 23.4rem; width: 100%; margin-top: 1.5rem; position: relative; border: 1px solid rgba(255, 229, 135, 0.6)}  
+  .detailSlider .thumbnail:hover::after{opacity: 1;}
+  .detailSlider .thumbnail .control{position:absolute; left: 0; top: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;}
+  .detailSlider .thumbnail .control button:nth-of-type(2){display: none;}
+  .detailSlider .thumbnail .control.active button:nth-of-type(1){display: none;}
+  .detailSlider .thumbnail .control.active button:nth-of-type(2){display:flex;}
+  .detailSlider .thumbnail .number{position: absolute; height: 100%; width: 100%; left: 0; top: 0; display: flex; align-items: center; font-size: 8rem; color: #FFE587; line-height: 100%; pointer-events: none;}
+  .detailSlider .thumbnail .number span{display: inline-flex; line-height: 40%; height: 5.4rem; letter-spacing: -0.3rem; transform: translateX(-75%); width:12rem; justify-content: flex-end;}
+  .detailSlider .swiper-slide.swiper-slide-prev .thumbnail .number span{transform: translateX(310%);}
+  .detailSlider .playtime{display: flex; gap: 0.4rem; line-height: 100%; margin-top: 1.5rem; display: none;}
+  .detailSlider .playtime span{line-height: 100%;}
+  .detailSlider .swiper-slide .block{}
+  .detailSlider .swiper-slide .thumbnail .image{position: relative; z-index: 10;}
+  .detailSlider .swiper-slide .thumbnail .timeline{position: absolute; left: 0; top: 0; height: 100%; width: 100%; transition: all 0.4s ease; opacity: 0;}
+  .detailSlider .swiper-slide .thumbnail .timeline span{position: absolute; left: 0; top: 0; height: 100%; background-color:rgba(255, 229, 135, 0.4) ; border-right: 0.4rem solid #FFE587; width: 30%;}
+  .detailSlider .swiper-slide.swiper-slide-active dl{opacity: 1;}
+  .detailSlider .swiper-slide.swiper-slide-active .thumbnail{border: 1px solid rgba(255, 229, 135, 0.6)}
+  .detailSlider .swiper-slide.swiper-slide-active .thumbnail:after{display: none;}
+  .detailSlider .swiper-slide.swiper-slide-active .thumbnail .image{opacity: 0;}
+  .detailSlider .swiper-slide.swiper-slide-active .thumbnail .timeline{opacity: 1;}
+  .detailSlider .swiper-slide.swiper-slide-active .thumbnail .timeline span{}
+  .detailSlider .swiper-slide.swiper-slide-active .playtime{display:flex;}
   
-
+  .detailSlider .swiper-button-prev{position: absolute; top: 0; border: 1px solid #f00; height: 100%; width: 6rem; left: 0; margin-top: 0; z-index: 10;}
+  .detailSlider .swiper-button-next{position: absolute; top: 0; border: 1px solid #f00; height: 100%; width: 6rem; right: 0; margin-top: 0; z-index: 10;}
+  .detailSlider .swiper-slide.swiper-slide-prev .thumbnail{cursor: pointer;}
+  .detailSlider .swiper-slide.swiper-slide-next .thumbnail{cursor: pointer;}
 
 
 /* contact */

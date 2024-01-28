@@ -171,9 +171,10 @@ function navClose(){
     $('#header').removeClass('m-menu')
     $('.navTrigger').removeClass('active')
 }
+var detailSwiper = '';
 var swiper = '';
 function slder(){
-        swiper = new Swiper(".mySwiper", {
+    swiper = new Swiper(".mySwiper", {
         slidesPerView: "auto",
         // autoHeight: true,
         freeMode: true,
@@ -183,10 +184,65 @@ function slder(){
         observer : true,
         observeParents : true,
         mousewheel: true,
+        slideToClickedSlide:true,
         on: {
             click() {
-                console.log('index', this.clickedIndex);
-                swiper.slideTo(this.clickedIndex);
+                // console.log('index', this.clickedIndex);
+                // swiper.slideTo(this.clickedIndex);
+            },
+            beforeDestroy:function(){
+                gsap.timeline()
+                .set('.mySwiper .block', {
+                        // duration: 0.2, 
+                        delay:0.1,
+                        x: '100vw',
+                        stagger: 0.1,
+                        ease: 'Power1.easeOut'
+                })
+            },
+            beforeInit:function(){
+                gsap.to('.mySwiper .block', {
+                    duration:0,
+                    x: '100vw',
+                })
+                $('.mySwiper .swiper-slide').eq(0).addClass('active')
+            },
+            afterInit:function(){
+                $('.video-list-wrap').css({opacity:1})
+                gsap.timeline()
+                .to('.mySwiper .block', {
+                        // duration: 0.2, 
+                        delay:0.1,
+                        x: '0vw',
+                        stagger: 0.1,
+                        ease: 'Power1.easeOut'
+                })
+            },
+            slideChangeTransitionEnd : function() {
+                
+            },
+        },
+      });
+
+
+      detailSwiper = new Swiper(".detailSlider", {
+        slidesPerView: "auto",
+        // autoHeight: true,
+        // freeMode: true,
+        // minimumVelocity:1,
+        speed: 1000,
+        centeredSlides: true,
+        slideWidth:'auto',
+        spaceBetween:'36%',
+        observer : true,
+        allowTouchMove:false,
+        observeParents : true,
+        mousewheel: true,
+        slideToClickedSlide:true,
+        on: {
+            click() {
+                // console.log('index', this.clickedIndex);
+                // detailSwiper.slideTo(this.clickedIndex);
             },
             beforeDestroy:function(){
                 gsap.timeline()
@@ -223,7 +279,6 @@ function slder(){
       });
 }
 function mainfunction() {
-    
     let flag = true;
     $('.video-con').on('click',function(){
         if(flag == true){
@@ -279,6 +334,9 @@ function mainfunction() {
             duration:0.4,
             width:'100%',
             ease: 'Power3.easeOut',
+            onComplete:function(){
+                
+            }
         })
         .to('.work-contents .work-block',{
             duration:0.4,
@@ -286,17 +344,60 @@ function mainfunction() {
             height:'100%',
             top:0,
             left:0,
-            y:0,
-            x:0,
+            transform:'translate(0%, 0%)',
             marginTop:0,
+            onComplete:function(){
+                $('.work-contents').addClass('active')
+            }
+        })
+        .to('.work-contents .work-block',{
+            delay:0.4,
+            duration:0.4,
+            width:'100%',
+            height:'0%',
+            onComplete:function(){
+                const video = document.getElementById("video"); 
+                video.play()
+            }
         })
         
+        
     })
-}
-function navActive(){
+
+    $('.detailSlider .swiper-slide .control button.stop').on('click',function(){
+        $(this).parent().addClass('active')
+        video.pause()
+    })
+    $('.detailSlider .swiper-slide .control button.play').on('click',function(){
+        $(this).parent().removeClass('active')
+        video.play()
+    })
+    $('.work-detail .sound button.off').on('click',function(){
+        $('.work-detail .sound button.on').show()
+        $(this).hide()
+        video.muted = true;
+    })
+    $('.work-detail .sound button.on').on('click',function(){
+        $('.work-detail .sound button.off').show()
+        $(this).hide()
+        video.muted = false;
+    })
+
+    const tl = gsap.timeline();
+    tl.to('.detailSlider',{
+        opacity:0,
+        onComplete:function(){
+            
+        }
+    })
+    tl.reversed(true);
+
+    $('.work-video').on('click',function(){
+        tl.reversed(!tl.reversed());
+    })
     
-    
 }
+
 function videoAutoPlay(){
     setTimeout(() => {
         const videos = gsap.utils.toArray('.work-list video')
