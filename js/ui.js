@@ -7,8 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 window.onload = function () {
     $('body').imagesLoaded().done(function (instance) {
         $('body').addClass('load')
-        headerScroll()
-        navActive()
+        // navActive()
         // overtext()
         $('.main-navigation .menu').on('click',function(){
             $(this).find('.navTrigger').toggleClass('active')
@@ -119,20 +118,19 @@ $(function() {
             },
             async enter(data) {
                 $('#wrapper').removeClass('contact-secton')
-                $('#wrapper').addClass('index-secton')
+                // $('.main-navigation li').removeClass('active')
+                // $('.main-navigation li').eq(0).addClass('default')
                 window.initMain();
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
-                await init()
-                await headerScroll()
-                await commonTween()
-                
+                // await init()
+                await mainfunction()
             },
             async once(data) {
-                $('.main-navigation li').eq(0).addClass('active')
-                await init()
-                $('#wrapper').addClass('index-secton')
-                commonTween()
+                // $('.main-navigation li').removeClass('active')
+                //$('.main-navigation li').eq(0).addClass('default')
+                // await init()
+                await mainfunction()
             }
           }, {
             name: 'contact',
@@ -149,22 +147,19 @@ $(function() {
                 }, 400);
             },
             async enter(data) {
-                $('#wrapper').removeClass('index-secton')
+                $('#wrapper').removeClass('work-secton')
                 $('#wrapper').addClass('contact-secton')
+                $('.main-navigation li').eq(0).removeClass('default')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 await init()
-                await headerScroll()
-                await commonTween()
                 window.removeMain();
             },
             async once(data) {
-                // $('.main-navigation li').removeClass('active')
-                // $('.main-navigation li').eq(2).addClass('active')
+                
                 $('.main-navigation li').eq(1).addClass('active')
                 $('#wrapper').addClass('contact-secton')
                 await init()
-                await commonTween()
             }
           }
           
@@ -176,36 +171,131 @@ function navClose(){
     $('#header').removeClass('m-menu')
     $('.navTrigger').removeClass('active')
 }
+var swiper = '';
+function slder(){
+        swiper = new Swiper(".mySwiper", {
+        slidesPerView: "auto",
+        // autoHeight: true,
+        freeMode: true,
+        centeredSlides: true,
+        slideWidth:'auto',
+        spaceBetween:30,
+        observer : true,
+        observeParents : true,
+        mousewheel: true,
+        on: {
+            click() {
+                console.log('index', this.clickedIndex);
+                swiper.slideTo(this.clickedIndex);
+            },
+            beforeDestroy:function(){
+                gsap.timeline()
+                .set('.mySwiper .block', {
+                        // duration: 0.2, 
+                        delay:0.1,
+                        x: '100vw',
+                        stagger: 0.1,
+                        ease: 'Power1.easeOut'
+                })
+            },
+            beforeInit:function(){
+                gsap.to('.mySwiper .block', {
+                    duration:0,
+                    x: '100vw',
+                })
+                $('.mySwiper .swiper-slide').eq(0).addClass('active')
+            },
+            afterInit:function(){
+                $('.video-list-wrap').css({opacity:1})
+                gsap.timeline()
+                .to('.mySwiper .block', {
+                        // duration: 0.2, 
+                        delay:0.1,
+                        x: '0vw',
+                        stagger: 0.1,
+                        ease: 'Power1.easeOut'
+                })
+            },
+            slideChangeTransitionEnd : function() {
+                
+            },
+        },
+      });
+}
+function mainfunction() {
+    
+    let flag = true;
+    $('.video-con').on('click',function(){
+        if(flag == true){
+            flag = false;
+            gsap.to('.video-list-wrap .video-dim',{
+                opacity:1,
+                onComplete:function(){
+                    $('#wrapper').addClass('work-secton')
+                    $('#header').addClass('normal')    
+                }
+            })
+            setTimeout(() => {
+                gsap.timeline()
+                .set('.video-list',{
+                    x:'100vw',
+                })
+                .to('.video-list',{
+                    x:'0',
+                })
+                slder();
+            }, 0);
+            
+        } else if(flag == false){
+            flag = true;
+            gsap.timeline()
+                .to('.video-list',{
+                    x:'100vw',
+                    ease: 'Power1.easeOut',
+                    onComplete:function(){
+                        // swiper.destroy();
+                        // swiper = undefined;
+                    }
+                })
+            setTimeout(() => {
 
-function headerScroll() {
-    
-    
+                gsap.to('.video-list-wrap .video-dim',{
+                    opacity:0,
+                    onComplete:function(){
+                        $('#wrapper').removeClass('work-secton')
+                        $('#header').removeClass('normal')    
+                    }
+                })
+            }, 0);
+            
+        }
+    })
+    $('.mySwiper .swiper-slide').on('click',function(){
+        $('.mySwiper .swiper-slide').removeClass('work-detail')    
+        $(this).addClass('work-detail')   
+        gsap.timeline()
+        .to('.work-contents .work-block .block-box',{
+            delay:0.4,
+            duration:0.4,
+            width:'100%',
+            ease: 'Power3.easeOut',
+        })
+        .to('.work-contents .work-block',{
+            duration:0.4,
+            width:'100%',
+            height:'100%',
+            top:0,
+            left:0,
+            y:0,
+            x:0,
+            marginTop:0,
+        })
+        
+    })
 }
 function navActive(){
     
-    $('.main-navigation h1 a').on('click',function(){
-        if($('.main-navigation li').eq(0).hasClass('active')){
-            return false;
-        }
-        $('.main-navigation li').removeClass('active')
-        $('.main-navigation li').eq(0).addClass('active')
-        // $('.main-navigation li').removeClass('active')
-    })
-    $('.main-navigation li.active a').on('click',function(){
-        
-    })
-    $('.main-navigation li a').on('click',function(){
-        const indexNum = $('.main-navigation li a').index(this)
-        if($(this).parent().hasClass('active')){
-            return false;
-        }
-        else{
-            setTimeout(() => {
-                $('.main-navigation li').removeClass('active')
-                $('.main-navigation li').eq(indexNum).addClass('active')
-            }, 600);
-        }
-    })
+    
 }
 function videoAutoPlay(){
     setTimeout(() => {
@@ -228,27 +318,7 @@ function videoAutoPlay(){
         
   }
 function init() {
-    var swiper = new Swiper(".mySwiper", {
-        slidesPerView: "auto",
-        // autoHeight: true,
-        centeredSlides: true,
-        slideWidth:'auto',
-        spaceBetween:30,
-        observer : true,
-        observeParents : true,
-        mousewheel: true,
-        on: {
-            afterInit:function(){
-                setTimeout(() => {
-                
-                }, 500);
-                
-            },
-            slideChangeTransitionEnd : function() {
-                
-            },
-        },
-      });
+    
     
     setTimeout(() => {
         $('body').removeClass('fixed')
