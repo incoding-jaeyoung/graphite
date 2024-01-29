@@ -430,7 +430,7 @@ a:hover{color:inherit;}
  .footer h1{font-size: 2.4rem; font-weight: 700;}
   
   .contents{padding-top: 11.4rem; padding-left: 2rem; padding-right: 2rem;}
-.sound{position: absolute; right: 2rem; bottom: 2rem;}
+.sound{position: absolute; right: 2rem; bottom: 2rem; z-index: 80;}
 .sound button{ font-size: 1.6rem; color: #FFE587; text-transform: uppercase; font-family:'Hexaframe';}
 .sound button:last-of-type{display: none;}
 .sound.active button.on{display: none;}
@@ -496,35 +496,37 @@ a:hover{color:inherit;}
   .video-list .swiper-slide.active .thumbnail .timeline span{}
   .video-list .swiper-slide.active .playtime{display:flex;}
   
-  .work-contents{position: fixed;display: flex; position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 20; pointer-events: none;}
+  .work-contents{position: fixed;display: flex; position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 10; pointer-events: none;}
   .work-contents.active{pointer-events: all;}
-  .work-contents .work-block{position: fixed; display: flex; width: 41.6rem; height: 23.4rem; left: 50%; top: 50%; transform:translate(-50%, -50%); margin-top: 2.5rem; }
-  .work-contents .work-block .block-box{position: absolute; display: flex; background-color: #FFE587; width: 0%; height:100%; left: 0%; top: 0%;}
-  .work-contents .work-detail{position: absolute; display: flex; left: 0; top: 0; bottom: 0; right:0; display: none; background-color: #fff;}
+  .work-block{position: fixed; display: flex; width: 41.6rem; height: 23.4rem; left: 50%; top: 50%; transform:translate(-50%, -50%); margin-top: 2.5rem; pointer-events: none; z-index: 30; overflow: hidden; transform-origin:center;}
+  .work-block .block-box{position: absolute; display: flex; background-color: #FFE587; width: 0%; height:100%; left: 0%; top: 0%;}
+  .work-block .block-box-side{position: absolute; display: flex; background-color: #FFE587; width: 100%; height:100%; left: 0%; top: 0%; opacity: 0.5; opacity: 0; display: flex; align-items: center; justify-content: center;}
+  .work-block .block-box-side img{width: 7.4rem;}
+  .work-contents .work-detail{position: absolute; display: flex; left: 0; top: 0; bottom: 0; right:0; display: none;}
   .work-contents.active .work-detail{display: flex;}
   .work-contents .work-video{position: absolute; display: flex; left: 0; top: 0; bottom: 0; right:0;}
-  .work-contents .close{ position: absolute; right:2rem; }
-  .work-contents .close button{font-family:'Hexaframe'; -webkit-text-stroke: 0.1rem #FFE587; line-height: 100%; font-weight: 700; height: 5.4rem; font-size: 8rem; color: transparent; display: flex; letter-spacing:-0.3rem; mix-blend-mode: difference;}
+  .close{ position: absolute; right:2rem; top: 2rem; display: none;}
+  .close button{font-family:'Hexaframe';  line-height: 100%; font-weight: 700; color: transparent; -webkit-text-stroke: 0.1rem #FFE587; display: flex;  height: 5.4rem; align-items: center; mix-blend-mode: difference; font-size: 8rem;}
   .work-contents .work-detail .sound button{}
   
-  .detailSlider{display: flex; position: fixed; z-index: 20; left: 0; right: 0; top: 0; color: #FFE587; font-size: 1.6rem; text-transform: uppercase; top: 50%; transform: translateY(-50%);  pointer-events: all; overflow: hidden;}
+  .detailSlider{display: flex; position: fixed; z-index: 20; left: 0; right: 0; top: 0; color: #FFE587; font-size: 1.6rem; text-transform: uppercase; top: 50%; transform: translateY(-50%);  overflow: hidden; display: none;}
   .detailSlider *{ font-family:'Hexaframe'; font-weight: 700;}
   .detailSlider .swiper{width:100%;}
   .detailSlider .swiper-wrapper{}
   .detailSlider .swiper-slide{width: 41.6rem;}
-  .detailSlider dl {height: 5.6rem; flex: none; display: flex; flex-direction: column; justify-content: flex-end; opacity: 0;}
+  .detailSlider dl {height: 7rem; flex: none; display: flex; flex-direction: column; justify-content: flex-end; opacity: 0; transition-delay: 0.6s;}
   .detailSlider dl dt{line-height: 100%; margin-bottom: 1.2rem;}
   .detailSlider dl dd{}
   .detailSlider .thumbnail{display: flex; height: 23.4rem; width: 100%; margin-top: 1.5rem; position: relative; border: 1px solid rgba(255, 229, 135, 0.6)}  
   .detailSlider .thumbnail:hover::after{opacity: 1;}
-  .detailSlider .thumbnail .control{position:absolute; left: 0; top: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; display: none;}
+  .detailSlider .thumbnail .control{position:absolute; left: 0; top: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; opacity: 0; transition-delay: 0.6s;}
   .detailSlider .thumbnail .control button:nth-of-type(2){display: none;}
   .detailSlider .thumbnail .control.active button:nth-of-type(1){display: none;}
   .detailSlider .thumbnail .control.active button:nth-of-type(2){display:flex;}
   .detailSlider .thumbnail .number{position: absolute; height: 100%; width: 100%; left: 0; top: 0; display: flex; align-items: center; font-size: 8rem; color: #FFE587; line-height: 100%; pointer-events: none;}
-  .detailSlider .thumbnail .number span{display: inline-flex; line-height: 40%; height: 5.4rem; letter-spacing: -0.3rem; transform: translateX(-75%); width:12rem; justify-content: flex-end;}
+  .detailSlider .thumbnail .number span{display: inline-flex; line-height: 40%; height: 5.4rem; letter-spacing: -0.3rem; transform: translateX(-75%); width:12rem; justify-content: flex-end;  transition-delay: 0.6s;}
   .detailSlider .swiper-slide.swiper-slide-prev .thumbnail .number span{transform: translateX(310%);}
-  .detailSlider .playtime{display: flex; gap: 0.4rem; line-height: 100%; margin-top: 1.5rem; display: none;}
+  .detailSlider .playtime{display: flex; gap: 0.4rem; line-height: 100%; margin-top: 1.5rem; opacity: 0; transition-delay: 0.6s;}
   .detailSlider .playtime span{line-height: 100%;}
   .detailSlider .swiper-wrapper {}
   .detailSlider .swiper-slide {}
@@ -537,8 +539,8 @@ a:hover{color:inherit;}
   .detailSlider .swiper-slide.swiper-slide-active .thumbnail .image{opacity: 0;}
   .detailSlider .swiper-slide.swiper-slide-active .thumbnail .timeline{opacity: 1;}
   .detailSlider .swiper-slide.swiper-slide-active .thumbnail .timeline span{}
-  .detailSlider .swiper-slide.swiper-slide-active .playtime{display:flex;}
-  .detailSlider .swiper-slide.swiper-slide-active .control{display:flex;}
+  .detailSlider .swiper-slide.swiper-slide-active .playtime{opacity: 1;}
+  .detailSlider .swiper-slide.swiper-slide-active .control{opacity: 1;}
   
   .detailSlider .swiper-button-prev{position: absolute; top: 0; border: 1px solid #f00; height: 100%; width: 6rem; left: 0; margin-top: 0; z-index: 10;}
   .detailSlider .swiper-button-next{position: absolute; top: 0; border: 1px solid #f00; height: 100%; width: 6rem; right: 0; margin-top: 0; z-index: 10;}

@@ -177,6 +177,7 @@ function slder(){
     swiper = new Swiper(".mySwiper", {
         slidesPerView: "auto",
         // autoHeight: true,
+        
         freeMode: true,
         centeredSlides: true,
         slideWidth:'auto',
@@ -185,6 +186,9 @@ function slder(){
         observeParents : true,
         mousewheel: true,
         slideToClickedSlide:true,
+        // thumbs: {
+            // swiper: detailSwiper,
+        //   },
         on: {
             click() {
                 // console.log('index', this.clickedIndex);
@@ -230,7 +234,7 @@ function slder(){
         // autoHeight: true,
         // freeMode: true,
         // minimumVelocity:1,
-        speed: 1000,
+        speed: 1200,
         centeredSlides: true,
         slideWidth:'auto',
         spaceBetween:'36%',
@@ -239,6 +243,9 @@ function slder(){
         observeParents : true,
         mousewheel: true,
         slideToClickedSlide:true,
+        // thumbs: {
+            // swiper: swiper,
+        //   },
         on: {
             click() {
                 // console.log('index', this.clickedIndex);
@@ -272,15 +279,67 @@ function slder(){
                         ease: 'Power1.easeOut'
                 })
             },
-            slideChangeTransitionEnd : function() {
-                
+            slidePrevTransitionStart : function() {
+                gsap.timeline()
+                .set('.work-block .block-box-side',{
+                    delay:0,
+                    duration:0,
+                    opacity:1,
+                    x:'-100%',
+                })
+                .to('.work-block .block-box-side',{
+                    delay:0.2,
+                    duration:0.4,
+                    x:0,
+                    ease: 'Power3.easeOut',
+                    
+                })
+                .to('.work-block .block-box-side',{
+                    delay:0.4,
+                    duration:0.8,
+                    x:'100%',
+                    ease: 'Power3.easeOut',
+                    
+                })
+            },
+            slideNextTransitionStart : function() {
+                gsap.timeline()
+                .set('.work-block .block-box-side',{
+                    delay:0,
+                    duration:0,
+                    opacity:1,
+                    x:'100%',
+                })
+                .to('.work-block .block-box-side',{
+                    delay:0.2,
+                    duration:0.4,
+                    x:0,
+                    ease: 'Power3.easeOut',
+                    
+                })
+                .to('.work-block .block-box-side',{
+                    delay:0.4,
+                    duration:0.8,
+                    x:'-100%',
+                    ease: 'Power3.easeOut',
+                    
+                })
             },
         },
       });
 }
 function mainfunction() {
+    // const tl = gsap.timeline();
+    // tl.to('.detailSlider',{
+    //     opacity:1,
+    // })
+    // tl.reversed(true);
     let flag = true;
     $('.video-con').on('click',function(){
+        if($('.contents-wrap').hasClass('detail')){
+            return false;
+        }
+    //    tl.reversed(!tl.reversed());
         if(flag == true){
             flag = false;
             gsap.to('.video-list-wrap .video-dim',{
@@ -325,20 +384,71 @@ function mainfunction() {
             
         }
     })
+
+    $('.close button').on('click',function(){
+        $('.contents-wrap').removeClass('detail')
+        gsap.timeline()
+        .to('.work-block .block-box',{
+            
+            duration:0.4,
+            width:'100%',
+            height:'100%',
+            onComplete:function(){
+                $('.work-contents').removeClass('active')
+                $('#header').show()
+                $('.video-list-wrap').show()
+                $('.detailSlider').hide()
+                $('.close').hide();
+                $('.sound button.on').show()
+                $('.sound button.off').hide()
+            }
+        })
+        
+        .to('.work-block',{
+            delay:0.2,
+            duration:0.4,
+            width:'41.6rem',
+            height:'23.4rem',
+            top:'50%',
+            left:'50%',
+            x:'-50%',
+            y:'-50%',
+            marginTop:'2.5rem',
+            
+        })
+        .to('.work-block .block-box',{
+            delay:0.2,
+            duration:0.4,
+            width:'0%',
+            ease: 'Power3.easeOut',
+        })
+
+        gsap.to('.video-list-wrap .video-dim',{
+            opacity:1,
+            onComplete:function(){
+                $('#wrapper').addClass('work-secton')
+                $('#header').addClass('normal')    
+            }
+        })
+        
+    })
+    
     $('.mySwiper .swiper-slide').on('click',function(){
+        $('.contents-wrap').addClass('detail')
         $('.mySwiper .swiper-slide').removeClass('work-detail')    
         $(this).addClass('work-detail')   
         gsap.timeline()
-        .to('.work-contents .work-block .block-box',{
+        .add('start')
+        .to('.work-block .block-box',{
             delay:0.4,
             duration:0.4,
             width:'100%',
             ease: 'Power3.easeOut',
             onComplete:function(){
-                
+             
             }
         })
-        .to('.work-contents .work-block',{
+        .to('.work-block',{
             duration:0.4,
             width:'100%',
             height:'100%',
@@ -348,22 +458,25 @@ function mainfunction() {
             marginTop:0,
             onComplete:function(){
                 $('.work-contents').addClass('active')
+                $('#header').hide()
+                $('.video-list-wrap').hide()
+                $('.detailSlider').show()
+                $('.close').show();
+                $('.sound button.on').hide()
+                $('.sound button.off').show()
+                
             }
         })
-        .to('.work-contents .work-block',{
+        .to('.work-block .block-box',{
             delay:0.4,
             duration:0.4,
             width:'100%',
             height:'0%',
-            onComplete:function(){
-                const video = document.getElementById("video"); 
-                video.play()
-            }
         })
         
-        
+     
+     
     })
-
     $('.detailSlider .swiper-slide .control button.stop').on('click',function(){
         $(this).parent().addClass('active')
         video.pause()
@@ -372,29 +485,19 @@ function mainfunction() {
         $(this).parent().removeClass('active')
         video.play()
     })
-    $('.work-detail .sound button.off').on('click',function(){
-        $('.work-detail .sound button.on').show()
+    $('.sound button.off').on('click',function(){
+        $('.sound button.on').show()
         $(this).hide()
         video.muted = true;
     })
-    $('.work-detail .sound button.on').on('click',function(){
-        $('.work-detail .sound button.off').show()
+    $('.sound button.on').on('click',function(){
+        $('.sound button.off').show()
         $(this).hide()
         video.muted = false;
     })
 
-    const tl = gsap.timeline();
-    tl.to('.detailSlider',{
-        opacity:0,
-        onComplete:function(){
-            
-        }
-    })
-    tl.reversed(true);
-
-    $('.work-video').on('click',function(){
-        tl.reversed(!tl.reversed());
-    })
+    
+    
     
 }
 
@@ -694,108 +797,109 @@ function closeLayer(no) {
 
 
 /* 글자섞기 */
-    function ShuffleText(element, onload, delay, iterationNumber, iterationSpeed, displayedSpeed, index) {
-        this.element = element;
-        this.onload = onload;
-        this.index = delay === true ? index + 1 : 1;
-        this.iterationNumber = iterationNumber;
-        this.iterationSpeed = iterationSpeed;
-        this.displayedSpeed = displayedSpeed;
-        this.texts = this.element.textContent;
-        this.startTexts = this.texts;
-        this.textsArr = [];
-        this.textsNewArr = [];
-        this.newText = '';
-        this.isRunning = false;
-      
-        this.setupEvents();
-      }
-      
-      ShuffleText.prototype.setupEvents = function() {
-        if (this.onload === true) {
-          this.iteration();
-        }
-        
-        var that = this;
-        this.element.addEventListener('mouseover', function() {
-          that.iteration(true);
-        }, false);
-      };
-      
-      ShuffleText.prototype.createNewArr = function() {
-        for (var i = 0; i < this.texts.length; i++) {
-          this.textsArr.push(this.texts[i]);
-        }
-        
-        while(this.textsArr.length > 0) {
-          var num = Math.floor(this.textsArr.length * Math.random());
-          this.textsNewArr.push(this.textsArr[num]);
-          this.textsArr.splice(num, 1);
-        }
-      };
-      
-      ShuffleText.prototype.createNewTexts = function() {
-        for (var i = 0; i < this.textsNewArr.length; i++) {
-          this.newText += this.textsNewArr[i];
-        }
-        
-        this.element.textContent = this.newText;
-      };
-      
-      ShuffleText.prototype.reset = function() {
-        this.newText = '';
-        this.textsArr = [];
-        this.textsNewArr = [];
-      };
-      
-      ShuffleText.prototype.render = function() {
-        this.createNewArr();
-        this.createNewTexts();
-        this.reset();
-      };
-      
-      ShuffleText.prototype.iteration = function(ev) {
-        if (this.isRunning !== false) return;
-        if (ev === true) this.index = 1;
-        
-        this.isRunning = true;
-        
-        var that = this;
-        for (var i = 0; i < this.iterationNumber; i++) {
-          (function(i) {
-            setTimeout(function() {
-              that.render();
-              
-              if (i === that.iterationNumber - 1) {
-                that.element.textContent = '';
-                
-                for (var j = 0; j < that.startTexts.length; j++) {
-                  (function(j) {
-                    setTimeout(function() {
-                      that.element.textContent += that.startTexts[j];
-                      
-                      if (j === that.startTexts.length - 1) {
-                        that.isRunning = false;
-                      }
-                    }, j * that.displayedSpeed);
-                  })(j);
-                }
-              }
-            }, i * that.index * that.iterationSpeed);
-          })(i);
-        }
-      };
-      
-      
-      (function() {
-        window.addEventListener('load', function() {
-          var classes = document.getElementsByClassName('shuffleText');
-          for (var i = 0; i < classes.length; i++) {
-            new ShuffleText(classes[i], false, false, 8, 50, 0, i);
-          }
-        }, false);
-      })();
+function ShuffleText(element, onload, delay, iterationNumber, iterationSpeed, displayedSpeed, index) {
+    this.element = element;
+    this.onload = onload;
+    this.index = delay === true ? index + 1 : 1;
+    this.texts = this.element.textContent;
+    this.startTexts = this.texts;
+    this.iterationNumber = this.texts.length;
+    this.iterationSpeed = iterationSpeed;
+    this.displayedSpeed = displayedSpeed;
 
+    this.textsArr = [];
+    this.textsNewArr = [];
+    this.newText = '';
+    this.isRunning = false;
+    this.renderCount = 0;
+
+    this.setupEvents();
+}
+
+ShuffleText.prototype.setupEvents = function() {
+    if (this.onload === true) {
+        this.iteration();
+}
+
+var that = this;
+this.element.addEventListener('mouseover', function() {
+    that.iteration(true);
+}, false);
+};
+
+ShuffleText.prototype.createNewArr = function() {
+    for (var i = 0; i < this.texts.length; i++) {
+        this.textsArr.push(this.texts[i]);
+    }
+    this.textsNewArr = this.textsArr;
+};
+
+ShuffleText.prototype.createNewTexts = function() {
+    for (var i = 0; i < this.textsNewArr.length; i++) {
+        var num = i + this.renderCount;
+        if(num >= this.textsNewArr.length) num = num - this.textsNewArr.length;
+        console.log('???', num, this.textsNewArr[num])
+        this.newText += this.textsNewArr[num];
+    }
+    console.log(this.newText, this.renderCount)
+    this.element.textContent = this.newText;
+};
+
+ShuffleText.prototype.reset = function() {
+    this.newText = '';
+    this.textsArr = [];
+    this.textsNewArr = [];
+};
+
+ShuffleText.prototype.render = function() {
+    this.createNewArr();
+    this.createNewTexts();
+    this.reset();
+};
+
+ShuffleText.prototype.iteration = function(ev) {
+    if (this.isRunning !== false) return;
+    if (ev === true) this.index = 1;
+
+    this.isRunning = true;
+    this.renderCount = 0;
+
+    var that = this;
+    for (var i = 0; i < this.iterationNumber; i++) {
+        (function(i) {
+        setTimeout(function() {
+            that.renderCount++;
+            that.render();
+            
+            if (i === that.iterationNumber - 1) {
+            that.element.textContent = '';
+            
+            for (var j = 0; j < that.startTexts.length; j++) {
+                (function(j) {
+                setTimeout(function() {
+                    that.element.textContent += that.startTexts[j];
+                    
+                    if (j === that.startTexts.length - 1) {
+                    that.isRunning = false;
+                    }
+                }, j * that.displayedSpeed);
+                })(j);
+            }
+            }
+        }, i * that.index * that.iterationSpeed);
+        })(i);
+    }
+};
+
+
+(function() {
+    window.addEventListener('load', function() {
+        var classes = document.getElementsByClassName('shuffleText');
+        for (var i = 0; i < classes.length; i++) {
+        new ShuffleText(classes[i], false, false, 8, 50, 0, i);
+        }
+    }, false);
+})();
 
 
 
