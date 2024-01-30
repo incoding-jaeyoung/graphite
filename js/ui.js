@@ -3,6 +3,7 @@
 //     history.scrollRestoration = 'manual';
 // }
 gsap.registerPlugin(ScrollTrigger);
+gsap.config({nullTargetWarn:false});
 // ScrollTrigger.normalizeScroll(true)
 window.onload = function () {
     $('body').imagesLoaded().done(function (instance) {
@@ -56,7 +57,7 @@ function pageTransitionOut(container, pageName) {
     const screenNum = document.querySelector('.loading-screen.' + pageName)
   // GSAP methods can be chained and return directly a promise
   return gsap
-    .timeline({ delay:0.6}) // More readable to put it here
+    .timeline({ delay: 0.6}) // More readable to put it here
     .add('start') // Use a label to sync screen and content animation
     .call(contentReset, [container])
     .set(container.querySelector('.contents'), {
@@ -116,21 +117,25 @@ $(function() {
                    
                 }, 400);
             },
+
+            
+            
             async enter(data) {
                 $('#wrapper').removeClass('contact-secton')
                 // $('.main-navigation li').removeClass('active')
                 // $('.main-navigation li').eq(0).addClass('default')
-                window.initMain();
                 const pageName = data.next.namespace
-                await pageTransitionOut(data.next.container, pageName)
+                pageTransitionOut(data.next.container, pageName)
                 // await init()
                 await mainfunction()
+                await window.initMain();
             },
             async once(data) {
                 // $('.main-navigation li').removeClass('active')
                 //$('.main-navigation li').eq(0).addClass('default')
                 // await init()
                 await mainfunction()
+                await window.initMain();
             }
           }, {
             name: 'contact',
@@ -151,9 +156,9 @@ $(function() {
                 $('#wrapper').addClass('contact-secton')
                 $('.main-navigation li').eq(0).removeClass('default')
                 const pageName = data.next.namespace
-                await pageTransitionOut(data.next.container, pageName)
+                pageTransitionOut(data.next.container, pageName)
                 await init()
-                window.removeMain();
+                await window.removeMain();
             },
             async once(data) {
                 
@@ -171,8 +176,10 @@ function navClose(){
     $('#header').removeClass('m-menu')
     $('.navTrigger').removeClass('active')
 }
+
 var detailSwiper = '';
 var swiper = '';
+
 function slder(){
     swiper = new Swiper(".mySwiper", {
         slidesPerView: "auto",
@@ -209,7 +216,7 @@ function slder(){
                     duration:0,
                     x: '100vw',
                 })
-                $('.mySwiper .swiper-slide').eq(0).addClass('active')
+                // $('.mySwiper .swiper-slide').eq(0).addClass('active')
             },
             afterInit:function(){
                 $('.video-list-wrap').css({opacity:1})
@@ -227,7 +234,6 @@ function slder(){
             },
         },
       });
-
 
       detailSwiper = new Swiper(".detailSlider", {
         slidesPerView: "auto",
@@ -280,50 +286,50 @@ function slder(){
                 })
             },
             slidePrevTransitionStart : function() {
-                gsap.timeline()
-                .set('.work-block .block-box-side',{
-                    delay:0,
-                    duration:0,
-                    opacity:1,
-                    x:'-100%',
-                })
-                .to('.work-block .block-box-side',{
-                    delay:0.2,
-                    duration:0.4,
-                    x:0,
-                    ease: 'Power3.easeOut',
+                // gsap.timeline()
+                // .set('.work-block .block-box-side',{
+                //     delay:0,
+                //     duration:0,
+                //     opacity:1,
+                //     x:'-100%',
+                // })
+                // .to('.work-block .block-box-side',{
+                //     delay:0.2,
+                //     duration:0.4,
+                //     x:0,
+                //     ease: 'Power3.easeOut',
                     
-                })
-                .to('.work-block .block-box-side',{
-                    delay:0.4,
-                    duration:0.8,
-                    x:'100%',
-                    ease: 'Power3.easeOut',
+                // })
+                // .to('.work-block .block-box-side',{
+                //     delay:0.4,
+                //     duration:0.8,
+                //     x:'100%',
+                //     ease: 'Power3.easeOut',
                     
-                })
+                // })
             },
             slideNextTransitionStart : function() {
-                gsap.timeline()
-                .set('.work-block .block-box-side',{
-                    delay:0,
-                    duration:0,
-                    opacity:1,
-                    x:'100%',
-                })
-                .to('.work-block .block-box-side',{
-                    delay:0.2,
-                    duration:0.4,
-                    x:0,
-                    ease: 'Power3.easeOut',
+                // gsap.timeline()
+                // .set('.work-block .block-box-side',{
+                //     delay:0,
+                //     duration:0,
+                //     opacity:1,
+                //     x:'100%',
+                // })
+                // .to('.work-block .block-box-side',{
+                //     delay:0.2,
+                //     duration:0.4,
+                //     x:0,
+                //     ease: 'Power3.easeOut',
                     
-                })
-                .to('.work-block .block-box-side',{
-                    delay:0.4,
-                    duration:0.8,
-                    x:'-100%',
-                    ease: 'Power3.easeOut',
+                // })
+                // .to('.work-block .block-box-side',{
+                //     delay:0.4,
+                //     duration:0.8,
+                //     x:'-100%',
+                //     ease: 'Power3.easeOut',
                     
-                })
+                // })
             },
         },
       });
@@ -335,6 +341,9 @@ function mainfunction() {
     // })
     // tl.reversed(true);
     let flag = true;
+
+    slder();
+
     $('.video-con').on('click',function(){
         if($('.contents-wrap').hasClass('detail')){
             return false;
@@ -357,7 +366,6 @@ function mainfunction() {
                 .to('.video-list',{
                     x:'0',
                 })
-                slder();
             }, 0);
             
         } else if(flag == false){
@@ -473,27 +481,26 @@ function mainfunction() {
             width:'100%',
             height:'0%',
         })
-        
      
-     
-    })
+    });
+    
     $('.detailSlider .swiper-slide .control button.stop').on('click',function(){
         $(this).parent().addClass('active')
-        video.pause()
+        // video.pause()
     })
     $('.detailSlider .swiper-slide .control button.play').on('click',function(){
         $(this).parent().removeClass('active')
-        video.play()
+        // video.play()
     })
     $('.sound button.off').on('click',function(){
         $('.sound button.on').show()
         $(this).hide()
-        video.muted = true;
+        // video.muted = true;
     })
     $('.sound button.on').on('click',function(){
         $('.sound button.off').show()
         $(this).hide()
-        video.muted = false;
+        // video.muted = false;
     })
 
     
@@ -838,10 +845,8 @@ ShuffleText.prototype.createNewTexts = function() {
     for (var i = 0; i < this.textsNewArr.length; i++) {
         var num = i + this.renderCount;
         if(num >= this.textsNewArr.length) num = num - this.textsNewArr.length;
-        console.log('???', num, this.textsNewArr[num])
         this.newText += this.textsNewArr[num];
     }
-    console.log(this.newText, this.renderCount)
     this.element.textContent = this.newText;
 };
 
