@@ -162,6 +162,7 @@
                      $(".mySwiper .swiper-slide").removeClass('active');
                      $(".mySwiper .swiper-slide").eq(videoIndex).addClass('active');
                      $(".mySwiper .swiper-slide").eq(videoIndex).find('.control').addClass('active playing').removeClass('paused');
+                     playVideo();
                   }
                })
                .to('.work-block .block-box', {
@@ -169,7 +170,7 @@
                   delay: 0.5,
                   height: 0,
                   onStart: () => {
-                     playVideo();
+                     
                   }
                });
                
