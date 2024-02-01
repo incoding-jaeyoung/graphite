@@ -121,6 +121,11 @@
                swiper.allowTouchMove = false;
                swiper.mousewheel.disable();
                detail = true;
+
+               var w = $(".mySwiper .swiper-slide").eq(0).find('.image').width();
+               var h = $(".mySwiper .swiper-slide").eq(0).find('.image').height();
+               $('.work-block .block-box').data("w", w).data("h", h);
+
                $(".block-box-side").css({opacity: 0});
                gsap.set('.work-block', {x: 0, y: 0, width: '100%', height: '100%'});
                gsap.timeline()
@@ -219,10 +224,6 @@
       $(window).on('resize', function () {
          if(detail){
             detailMove(0)
-         } else {
-            var w = $(".mySwiper .swiper-slide").eq(0).find('.image').width();
-            var h = $(".mySwiper .swiper-slide").eq(0).find('.image').height();
-            $('.work-block .block-box').data("w", w).data("h", h);
          }
          
       });
