@@ -286,50 +286,50 @@ function slder(){
                 })
             },
             slidePrevTransitionStart : function() {
-                // gsap.timeline()
-                // .set('.work-block .block-box-side',{
-                //     delay:0,
-                //     duration:0,
-                //     opacity:1,
-                //     x:'-100%',
-                // })
-                // .to('.work-block .block-box-side',{
-                //     delay:0.2,
-                //     duration:0.4,
-                //     x:0,
-                //     ease: 'Power3.easeOut',
+                gsap.timeline()
+                .set('.work-block .block-box-side',{
+                    delay:0,
+                    duration:0,
+                    opacity:1,
+                    x:'-100%',
+                })
+                .to('.work-block .block-box-side',{
+                    delay:0.2,
+                    duration:0.4,
+                    x:0,
+                    ease: 'Power3.easeOut',
                     
-                // })
-                // .to('.work-block .block-box-side',{
-                //     delay:0.4,
-                //     duration:0.8,
-                //     x:'100%',
-                //     ease: 'Power3.easeOut',
+                })
+                .to('.work-block .block-box-side',{
+                    delay:0.4,
+                    duration:0.8,
+                    x:'100%',
+                    ease: 'Power3.easeOut',
                     
-                // })
+                })
             },
             slideNextTransitionStart : function() {
-                // gsap.timeline()
-                // .set('.work-block .block-box-side',{
-                //     delay:0,
-                //     duration:0,
-                //     opacity:1,
-                //     x:'100%',
-                // })
-                // .to('.work-block .block-box-side',{
-                //     delay:0.2,
-                //     duration:0.4,
-                //     x:0,
-                //     ease: 'Power3.easeOut',
+                gsap.timeline()
+                .set('.work-block .block-box-side',{
+                    delay:0,
+                    duration:0,
+                    opacity:1,
+                    x:'100%',
+                })
+                .to('.work-block .block-box-side',{
+                    delay:0.2,
+                    duration:0.4,
+                    x:0,
+                    ease: 'Power3.easeOut',
                     
-                // })
-                // .to('.work-block .block-box-side',{
-                //     delay:0.4,
-                //     duration:0.8,
-                //     x:'-100%',
-                //     ease: 'Power3.easeOut',
+                })
+                .to('.work-block .block-box-side',{
+                    delay:0.4,
+                    duration:0.8,
+                    x:'-100%',
+                    ease: 'Power3.easeOut',
                     
-                // })
+                })
             },
         },
       });
