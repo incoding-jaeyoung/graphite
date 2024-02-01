@@ -1,6 +1,5 @@
 (function () {
 
-   const isMobile = () => 'ontouchstart' in window;
 
    const videos = [
       {
@@ -54,14 +53,11 @@
 
    window.initMain = () => {
       if($(".main-content").length > 0) {
+         const videoEl = $(`<video playsinline muted><source src="./video/${videos[0].video}" type="video/mp4" /></video>`);
+         $(".main-content .video-con").append(videoEl);
+         targetVideo = $(".main-content .video-con > video")[0];
+         targetVideo.load();
          videos.forEach((x, i) => {
-            const videoEl = $(`<video playsinline muted><source src="./video/${x.video}" type="video/mp4" /></video>`);
-            $(".main-content .video-con").append(videoEl);
-            videoEl[0].load();
-            videoEl.one("loadedmetadata", () => {
-               count++;
-               if(count === videos.length) init();
-            });
             $(".mySwiper .swiper-slide").eq(i).find(".image a").append(`<img src="${x.thumb}" />`);
             $(".mySwiper .swiper-slide").eq(i).find("dl").append(x.title);
             $(".mySwiper .swiper-slide").eq(i).find(".num").html($(x.title)[0])
@@ -71,7 +67,7 @@
             dd.eq(0).data('shuffleText', shuffleText1);
             dd.eq(1).data('shuffleText', shuffleText2);
          });
-         $(".main-content .video-con > video").hide().eq(0).show();
+         init();
       }
       $("html,body").css({overflow: "hidden"});
       setTimeout(() => {
@@ -190,14 +186,15 @@
                } else {
                   gsap.set('.work-block', {x: arrow === 'left' ? 0 : $(window).width(), y: 0, width: 0, height: '100%'});
                   gsap.set('.work-block .block-box', {opacity: 1, x: 0, y: 0, width: '100%', height: '100%'});
-                  gsap.to('.work-block', 0.4, {x:0, width: '100%'});
+                  gsap.to('.work-block', 0.4, {x:0, width: '100%', onComplete: () => {
+                     playVideo();
+                  }});
                   
                   $(".block-box-side").css({opacity: 1});
                   $(".mySwiper .control").removeClass('active');
                   $(this).find(".control").addClass("active playing").removeClass('paused');
                   gsap.to('.work-block', 0.4, {delay: 1, x: arrow === 'left' ? $(window).width() : 0, width: 0, onStart: () => {
                      gsap.to($(".block-box-side"), 0.3, {opacity: 0});
-                     playVideo();
                   }});
                   swiper.slideTo(i, 600);
                   detailMove(0.6);
@@ -218,6 +215,7 @@
          $('.close').hide();
          $(".mySwiper .control").removeClass('active');
          gsap.to($(".mySwiper .swiper-slide .block"), 0.4, {x: 0, ease: Cubic.easeOut });
+         $('.video-dim').show();
          targetVideo.play();
       });
 
@@ -259,14 +257,10 @@
 
    function playVideo () {
       swiper.slideTo(videoIndex);
-      $(".main-content .video-con > video").each(function () {
-         $(this)[0].pause();
-      });
       $(".mySwiper .swiper-slide").removeClass('active').eq(videoIndex).addClass('active');
       $(".mySwiper .swiper-slide").eq(videoIndex).find('.timeline > span').css({width: `0%`});
-      $(".main-content .video-con > video").hide().eq(videoIndex).show();
-      targetVideo = $(".main-content .video-con > video").eq(videoIndex)[0];
-      targetVideo.currentTime = 0;
+      $(".main-content .video-con > video > source").attr('src', `./video/${videos[videoIndex].video}`);
+      targetVideo.load();
       targetVideo.play();
       timer = setInterval(() => onUpdate(), 1000/60);
       
