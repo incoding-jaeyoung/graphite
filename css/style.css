@@ -478,7 +478,8 @@ a:hover{color:inherit;}
   .video-list .swiper-wrapper{}
   .video-list .swiper-slide{width: 41.6rem;pointer-events: none;}
   .video-list dl dt{line-height: 100%; margin-bottom: 1.2rem;}
-  .video-list dl dd{}
+  .video-list dl dd{height: 1.5rem; line-height: 40%;}
+  .video-list dl dd:last-of-type{margin-top: 0.8rem;}
   .video-list .thumbnail{ height: 23.4rem; width: 100%; margin-top: 1.5rem; position: relative;}  
   .video-list .thumbnail:after{content: ""; display: block; width: 100%; height: 100%; border: 0.3rem solid rgba(255, 229, 135, 1); position: absolute; left: 0; top: 0; z-index: 10; box-sizing: border-box; opacity: 0; pointer-events: none; transition: all 0.2s ease;}
   .video-list .thumbnail:hover::after{opacity: 1;}
@@ -496,7 +497,7 @@ a:hover{color:inherit;}
   .video-list .thumbnail .control.paused button:nth-of-type(2){display:flex;}
 
   .video-list .swiper-slide.active{}
-  .video-list .swiper-slide.active .thumbnail{border: 1px solid rgba(255, 229, 135, 0.6)}
+  .video-list .swiper-slide.active .thumbnail{border: 1px solid rgba(255, 229, 135, 0.4)}
   .video-list .swiper-slide.active .thumbnail:after{display: none;}
   .video-list .swiper-slide.active .thumbnail .image{opacity: 0;}
   .video-list .swiper-slide.active .thumbnail .timeline{opacity: 1;}
