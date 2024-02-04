@@ -127,11 +127,9 @@ $(function() {
             async once(data) {
                 var winw = $(window).width();
                 if (winw > 768) {
-                    $('.main-content').show()
                     await mainfunction()
                     await window.initMain();
                 } else {
-                    $('.main-content').hide()
                     console.log('mobile',winw)
                 }
                 $(window).resize(function(){

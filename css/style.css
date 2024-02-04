@@ -390,6 +390,9 @@ a:hover{color:inherit;}
 #wrapper.contact-secton .main-navigation ul li:last-child a span{color:#FFE587;}
 #wrapper.contact-secton .main-navigation ul li a span{ -webkit-text-stroke: 0.1rem #FFE587}
 
+@media (max-width: 768px) {
+  
+}
 
 .loading-container {
   position: fixed;
@@ -456,8 +459,9 @@ a:hover{color:inherit;}
     #header nav.main-navigation.nav-hide .menu{width:5.4rem; opacity: 1; margin-left: 0;}
     #header nav.main-navigation .menu svg{width: 4.3rem; height: 4rem;}
     #header nav.main-navigation ul{gap: 1.4rem;}
-    #header nav.main-navigation ul li a span{ height: 1.6rem;  font-weight: 400;}
-    #header nav.main-navigation h1 a{opacity: 1; letter-spacing: -0.1rem; font-size:2.3rem;  height: 1.6rem; display: flex; align-items: center;}
+    #header nav.main-navigation ul li a span{ height: 1.6rem;  font-weight: 400; -webkit-text-stroke: 0.1rem #000;}
+    #header nav.main-navigation ul li:first-child span{color: #000;}
+    #header nav.main-navigation h1 a{opacity: 1; letter-spacing: -0.1rem; font-size:2.3rem;  height: 1.6rem; display: flex; align-items: center; color: #000;}
     
     #header.m-menu{transition: all 0.2s ease;}
     #header.m-menu nav.main-navigation ul{ padding: 12rem 1.2rem 0 1.2rem; transform: translateY(0); opacity: 1; pointer-events: all;}
@@ -465,9 +469,17 @@ a:hover{color:inherit;}
     #header.m-menu nav.main-navigation ul li:nth-of-type(2) a span{transform: translateY(0%); height:5.36rem;}
     #header.m-menu nav.main-navigation ul li:nth-of-type(3) a span{transform: translateX(0%); width: 100%;}
     
+    #wrapper{background-color: #FFE587;}
+    #wrapper #header{mix-blend-mode: normal;}
+    /* #wrapper .main-navigation h1 a{ color: #000;}
+    #wrapper .main-navigation ul li:first-child a span{ color: #000; -webkit-text-stroke:0;}
+    #wrapper .main-navigation ul li:last-child a span{color:transparent; -webkit-text-stroke: 0.1rem #000} */
+
+
     .footer{display: flex; justify-content: space-between; padding: 1.2rem; padding-top: 0; padding-top: 10rem; font-size: 2.4rem; margin-top: auto; align-items: flex-end;}
     .footer p{font-size: 2.3rem; line-height: normal; letter-spacing:-0.1rem}
     .footer h1{display: none;}
+
     
   }
   
@@ -514,8 +526,6 @@ a:hover{color:inherit;}
   .video-list .swiper-slide-prev .num {left: 38rem}
   .video-list .swiper-slide-active .num {left: -9rem}
   .video-list .detail .num {display: block;}
-  
-  
   .work-contents{position: fixed;display: flex; position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 10; pointer-events: none;}
   .work-contents.active{pointer-events: all;}
   .work-block{position: fixed; display: flex; width: 100%; height: 100%; left: 0; top: 0; pointer-events: none; z-index: 30}
@@ -529,7 +539,15 @@ a:hover{color:inherit;}
   .close button{font-family:'Hexaframe';  line-height: 100%; font-weight: 700; color: transparent; -webkit-text-stroke: 0.1rem #FFE587; display: flex;  height: 5.4rem; align-items: center; mix-blend-mode: difference; font-size: 8rem;}
   .work-contents .work-detail .sound button{}
   
-
+  @media (max-width: 768px) {
+    .main-content{position: static;}
+    .video-list-wrap{opacity: 1; pointer-events: all; position:static;}
+    .video-con{display: none;}
+    .video-dim{display: none;}
+    .video-list{transform:none; position: static;}
+    .swiper-wrapper{display: flex; flex-direction: column;}
+    .video-list .swiper-slide{width: 100%; height: auto;}
+  }
 
 /* contact */
 #wrapper.contact-secton {background: url(../img/bg-info.png) no-repeat; background-size: cover;}
