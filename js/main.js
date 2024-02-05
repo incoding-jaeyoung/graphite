@@ -67,9 +67,9 @@
             dd.eq(0).data('shuffleText', shuffleText1);
             dd.eq(1).data('shuffleText', shuffleText2);
          });
-         init();
+         // init();
       }
-      $("html,body").css({overflow: "hidden"});
+      // $("html,body").css({overflow: "hidden"});
       setTimeout(() => {
          if(!$('.close button').data('shuffleText')){
             var shuffleText = new ShuffleText($('.close button')[0], false, false, 8, 50, 0, 10);

@@ -4,37 +4,11 @@
 // }
 gsap.registerPlugin(ScrollTrigger);
 gsap.config({nullTargetWarn:false});
-// ScrollTrigger.normalizeScroll(true)
 window.onload = function () {
     $('body').imagesLoaded().done(function (instance) {
         $('body').addClass('load')
-        // navActive()
-        // overtext()
-        $('.main-navigation .menu').on('click',function(){
-            $(this).find('.navTrigger').toggleClass('active')
-            $('#header').toggleClass('m-menu')
-        })        
     });
 }
-function smoothScroll(){
-    // const locoScroll = new LocomotiveScroll({
-    //     el: document.querySelector(".contents-wrap"),
-    //     smooth: true
-    // });
-    // locoScroll.on('.contents-wrap', ScrollTrigger.update)
-    // ScrollTrigger.scrollerProxy(".contents-wrap", {
-    //     scrollTop(value) {
-    //       return arguments.length ? locoScroll.scrollTo(value, 0, 0) : locoScroll.scroll.instance.scroll.y;
-    //     }, // we don't have to define a scrollLeft because we're only scrolling vertically.
-    //     getBoundingClientRect() {
-    //       return {top: 0, left: 0, width: window.innerWidth, height: window.innerHeight};
-    //     },
-    //     pinType: document.querySelector(".contents-wrap").style.transform ? "transform" : "fixed"
-    // });
-    // ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
-    // ScrollTrigger.refresh();
-}
-
 
 // const screenNum = '';
 const loadingScreen = document.querySelector('.loading-screen')
@@ -44,7 +18,7 @@ const mainNavigation = document.querySelector('.main-navigation')
 
 // Function to add and remove the page transition screen
 function pageTransitionIn(pageName) {
-    $('body').addClass('fixed')
+    // $('body').addClass('fixed')
     const screenNum = document.querySelector('.loading-screen.' + pageName)
     navClose()
     return gsap
@@ -121,34 +95,22 @@ $(function() {
                 $('#wrapper').removeClass('contact-secton')
                 const pageName = data.next.namespace
                 pageTransitionOut(data.next.container, pageName)
-                await mainfunction()
+                var winw = $(window).width();
                 await window.initMain();
+                if (winw > 768) {
+                    mainfunction()
+                } else {
+                    
+                }
             },
             async once(data) {
                 var winw = $(window).width();
+                await window.initMain();
                 if (winw > 768) {
-                    await mainfunction()
-                    await window.initMain();
+                    mainfunction()
                 } else {
-                    console.log('mobile',winw)
+                    
                 }
-                $(window).resize(function(){
-                    if(this.resizeTo){
-                        clearTimeout(this.resizeTo);
-                    }
-                    this.resizeTo = setTimeout(function(){
-                        $(this).trigger('resizeEnd')
-                    },200)
-                })
-                $(window).on('resizeEnd',function(){
-                    var resizeWidth = $(window).width();
-                    if (resizeWidth > 768) {
-                        // $('.main-content').show()
-                    } else {
-                        // $('.main-content').hide()
-                    }
-                })
-                
             }
           }, {
             name: 'contact',
@@ -175,7 +137,6 @@ $(function() {
                 
             },
             async once(data) {
-                $('.main-navigation li').eq(1).addClass('active')
                 $('#wrapper').addClass('contact-secton')
                 await init()
             }
