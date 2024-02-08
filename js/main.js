@@ -27,7 +27,7 @@
    window.initMain = () => {
       
       if($(".main-content").length > 0) {
-         isMobile = $(window).width() < 770;
+         isMobile = $(window).width() < 1000;
          
          if(!isMobile) {
             addSwiper();
@@ -90,7 +90,7 @@
          if(fullScreenElement) {
             return;
          }
-         if($(window).width() < 770) {
+         if($(window).width() < 1000) {
             if(!isMobile) {
                isMobile = true;
                if(swiper) {
