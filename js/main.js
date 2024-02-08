@@ -311,7 +311,7 @@
          }
       });
       $(".layer-player .fs-btn").on('click', function () {
-         var videoEl = $(".main-content .video-con > video")[0];
+         var videoEl = $(".layer-player .popup-video > video")[0];
          if(videoEl.requestFullscreen) {
             videoEl.requestFullscreen();
          } else if (videoEl.mozRequestFullScreen) {
