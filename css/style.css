@@ -11,7 +11,7 @@ body,html {font-size: 0.5208333333333334vw;}
     body,html {font-size: 62.5%;}
 }
 @media (max-width:1000px) {
-  body,html {font-size: 62.5%;}
+  body,html {font-size: 62.5%; background-color: #FFE587;}
     /*body,html {font-size: 2.66666666666667vw;}*/
   
 }
@@ -20,9 +20,9 @@ body,html {font-size: 0.5208333333333334vw;}
 
 /* common */
 *{font-family:'circular','Pretendard', sans-serif;  box-sizing: border-box; font-weight:400; -webkit-font-smoothing: antialiased; -webkit-overflow-scrolling: touch; word-break: keep-all; }
-html, body {color: #FFE587;height: -webkit-fill-available;} 
+html, body {color: #FFE587; } 
 
-body{font-size: 1.8rem; font-weight:500; letter-spacing: -0.04rem; overflow-x: hidden; transition: all 0.4s ease; opacity: 0; height: 100%; }
+body{font-size: 1.8rem; font-weight:500; letter-spacing: -0.04rem; overflow-x: hidden; transition: all 0.4s ease; opacity: 0;}
 body.load{opacity: 1;}
 html.fixed{overflow: hidden;}
 body.fixed{overflow: hidden;}
@@ -30,7 +30,7 @@ body.fixed{overflow: hidden;}
   height: 100vh;
 }
 
-#wrapper{width: 100%; min-height: 100vh; height: -webkit-fill-available;}
+#wrapper{width: 100%; min-height: 100vh; }
 .mob-view {display:none;}
 .pc-view{display: block;}
 .row{max-width: 192rem; margin: auto;}
@@ -441,6 +441,7 @@ a:hover{color:inherit;}
 .sound.active button.on{display: none;}
 .sound.active button.off{display:block;}
   @media (max-width:1000px) {
+    .sound{display: none;}
     body{height: auto;}
     #wrapper{background-color: #FFE587;}
     .contents{padding:4.4rem 1.2rem 0 1.2rem;}
