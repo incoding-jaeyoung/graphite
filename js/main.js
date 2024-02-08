@@ -27,7 +27,7 @@
    window.initMain = () => {
       
       if($(".main-content").length > 0) {
-         isMobile = $(window).width() < 770;
+         isMobile = $(window).width() < 1000;
          
          if(!isMobile) {
             addSwiper();
@@ -90,7 +90,7 @@
          if(fullScreenElement) {
             return;
          }
-         if($(window).width() < 770) {
+         if($(window).width() < 1000) {
             if(!isMobile) {
                isMobile = true;
                if(swiper) {
@@ -311,7 +311,7 @@
          }
       });
       $(".layer-player .fs-btn").on('click', function () {
-         var videoEl = $(".main-content .video-con > video")[0];
+         var videoEl = $(".layer-player .popup-video > video")[0];
          if(videoEl.requestFullscreen) {
             videoEl.requestFullscreen();
          } else if (videoEl.mozRequestFullScreen) {
