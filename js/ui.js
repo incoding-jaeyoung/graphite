@@ -97,20 +97,12 @@ $(function() {
                 pageTransitionOut(data.next.container, pageName)
                 var winw = $(window).width();
                 await window.initMain();
-                if (winw > 768) {
-                    mainfunction()
-                } else {
-                    
-                }
+                mainfunction()
             },
             async once(data) {
                 var winw = $(window).width();
                 await window.initMain();
-                if (winw > 768) {
-                    mainfunction()
-                } else {
-                    
-                }
+                mainfunction()
             }
           }, {
             name: 'contact',
@@ -152,64 +144,9 @@ function navClose(){
 }
 
 var detailSwiper = '';
-var swiper = '';
 
 function slder(){
-    swiper = new Swiper(".mySwiper", {
-        slidesPerView: "auto",
-        // autoHeight: true,
-        
-        freeMode: true,
-        centeredSlides: true,
-        slideWidth:'auto',
-        spaceBetween:30,
-        observer : true,
-        observeParents : true,
-        mousewheel: true,
-        // slideToClickedSlide:true,
-        preventClicks: true,
-        preventClicksPropagation: true,
-        // thumbs: {
-            // swiper: detailSwiper,
-        //   },
-        on: {
-            click() {
-                // console.log('index', this.clickedIndex);
-                // swiper.slideTo(this.clickedIndex);
-            },
-            beforeDestroy:function(){
-                gsap.timeline()
-                .set('.mySwiper .block', {
-                        // duration: 0.2, 
-                        delay:0.1,
-                        x: '100vw',
-                        stagger: 0.1,
-                        ease: 'Power1.easeOut'
-                })
-            },
-            beforeInit:function(){
-                gsap.to('.mySwiper .block', {
-                    duration:0,
-                    x: '100vw',
-                })
-                // $('.mySwiper .swiper-slide').eq(0).addClass('active')
-            },
-            afterInit:function(){
-                $('.video-list-wrap').css({opacity:1})
-                gsap.timeline()
-                .to('.mySwiper .block', {
-                        // duration: 0.2, 
-                        delay:0.1,
-                        x: '0vw',
-                        stagger: 0.1,
-                        ease: 'Power1.easeOut'
-                })
-            },
-            slideChangeTransitionEnd : function() {
-                
-            },
-        },
-      });
+    
 
       detailSwiper = new Swiper(".detailSlider", {
         slidesPerView: "auto",
@@ -251,7 +188,7 @@ function slder(){
                 $('.mySwiper .swiper-slide').eq(0).addClass('active')
             },
             afterInit:function(){
-                $('.video-list-wrap').css({opacity:1})
+                // $('.video-list-wrap').css({opacity:1})
                 gsap.timeline()
                 .to('.mySwiper .block', {
                         // duration: 0.2, 
