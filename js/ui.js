@@ -453,7 +453,7 @@ function commonTween() {
     })
     
     ScrollTrigger.matchMedia({
-        "(min-width:769px)": function () {
+        "(min-width:1001px)": function () {
             $('.right-slide .swiper-wrapper').each(function (e){
                 let slideWidth = $(this).innerWidth()
                 let slide = $('.right-slide .swiper-wrapper .swiper-slide').width()
@@ -480,7 +480,7 @@ function commonTween() {
                 })
             })
         },
-        "(max-width:768px)": function () {
+        "(max-width:1100px)": function () {
             $('.right-slide .swiper-slide').each(function (e) {
                 var stagger = $(this)
                 gsap.set($('.mySwiper'), {
