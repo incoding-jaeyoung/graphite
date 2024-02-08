@@ -43,7 +43,7 @@
          videos.forEach((x, i) => {
             // $(".mySwiper .swiper-slide").eq(i).find(".image a").append(`<img src="${x.thumb}" />`);
             // $(".mySwiper .swiper-slide").eq(i).find("dl").append(x.title);
-            $(".mySwiper .swiper-slide").eq(i).find(".num").html($(x.title)[0])
+            $(".mySwiper .swiper-slide").eq(i).find(".num").html(pad(i+1, 2));
             var dd = $(".mySwiper .swiper-slide").eq(i).find("dd");
             var shuffleText1 = new ShuffleText(dd.eq(0)[0], false, false, 8, 50, 0, 11+i, false);
             var shuffleText2 = new ShuffleText(dd.eq(1)[0], false, false, 8, 50, 0, 11+i, false);
