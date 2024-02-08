@@ -318,6 +318,10 @@
             videoEl.mozRequestFullScreen();
          } else if (videoEl.webkitRequestFullscreen) {
             videoEl.webkitRequestFullscreen();
+         } else if(videoEl.webkitEnterFullscreen){
+            videoEl.webkitEnterFullscreen();
+         } else {
+            videoEl.webkitEnterFullscreen();
          }
       });
       
