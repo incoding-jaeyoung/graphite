@@ -5,6 +5,15 @@
   font-family:'circular';
   font-style: normal;
   src:local('※'),  
+  url(CircularStd-Book.woff) format('woff');
+  font-weight:300;
+}
+
+/* circular-Light */
+@font-face {
+  font-family:'circular';
+  font-style: normal;
+  src:local('※'),  
   url(CircularStd-Medium.woff) format('woff');
   font-weight: 400;
 }

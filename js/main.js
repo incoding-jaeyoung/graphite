@@ -7,11 +7,11 @@
       'video3.mp4',
       'video4.mp4',
       'video5.mp4',
-      'video6.mp4',
       'video1.mp4',
       'video2.mp4',
       'video3.mp4',
       'video4.mp4',
+      'video5.mp4',
    ];
 
    let count = 0;
@@ -45,8 +45,8 @@
             // $(".mySwiper .swiper-slide").eq(i).find("dl").append(x.title);
             $(".mySwiper .swiper-slide").eq(i).find(".num").html(pad(i+1, 2));
             var dd = $(".mySwiper .swiper-slide").eq(i).find("dd");
-            var shuffleText1 = new ShuffleText(dd.eq(0)[0], false, false, 8, 50, 0, 11+i, false);
-            var shuffleText2 = new ShuffleText(dd.eq(1)[0], false, false, 8, 50, 0, 11+i, false);
+            var shuffleText1 = new ShuffleText(dd.eq(0)[0], false, false, 8, 30, 0, 11+i, false);
+            var shuffleText2 = new ShuffleText(dd.eq(1)[0], false, false, 8, 30, 0, 11+i, false);
             dd.eq(0).data('shuffleText', shuffleText1);
             dd.eq(1).data('shuffleText', shuffleText2);
          });
@@ -243,18 +243,18 @@
                         targetVideo.play();
                      }
                   } else {
-                     gsap.set('.work-block', {x: arrow === 'left' ? 0 : $(window).width(), y: 0, width: 0, height: '100%'});
-                     gsap.set('.work-block .block-box', {opacity: 1, x: 0, y: 0, width: '100%', height: '100%'});
+                     // gsap.set('.work-block', {x: arrow === 'left' ? 0 : $(window).width(), y: 0, width: 0, height: '100%'});
+                     // gsap.set('.work-block .block-box', {opacity: 1, x: 0, y: 0, width: '100%', height: '100%'});
                      gsap.to('.work-block', 0.4, {x:0, width: '100%', onComplete: () => {
                         playVideo();
                      }});
                      
-                     $(".block-box-side").css({opacity: 1});
+                     // $(".block-box-side").css({opacity: 1});
                      $(".mySwiper .control").removeClass('active');
                      $(this).find(".control").addClass("active playing").removeClass('paused');
-                     gsap.to('.work-block', 0.4, {delay: 1, x: arrow === 'left' ? $(window).width() : 0, width: 0, onStart: () => {
+                     // gsap.to('.work-block', 0.4, {delay: 1, x: arrow === 'left' ? $(window).width() : 0, width: 0, onStart: () => {
                         gsap.to($(".block-box-side"), 0.3, {opacity: 0});
-                     }});
+                     // }});
                      swiper.slideTo(i, 600);
                      detailMove(0.6);
                   }

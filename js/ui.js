@@ -8,6 +8,7 @@ window.onload = function () {
     $('body').imagesLoaded().done(function (instance) {
         $('body').addClass('load')
     });
+    commonTween()
 }
 
 // const screenNum = '';
@@ -22,7 +23,12 @@ function pageTransitionIn(pageName) {
     const screenNum = document.querySelector('.loading-screen.' + pageName)
     navClose()
     return gsap
-    .to(screenNum, {delay:0, duration:0.6, scaleY: 1, transformOrigin: 'bottom left',opacity: 1, width:'100vw', x: '0',ease:"power1.out",})
+    .to(screenNum, {
+        delay:0, 
+        duration:0.6, 
+        opacity: 1, 
+        ease:"power1.out",
+    })
     
 }
 // Function to add and remove the page transition screen
@@ -31,7 +37,7 @@ function pageTransitionOut(container, pageName) {
     const screenNum = document.querySelector('.loading-screen.' + pageName)
   // GSAP methods can be chained and return directly a promise
   return gsap
-    .timeline({ delay: 0.6}) // More readable to put it here
+    .timeline({ delay: 0}) // More readable to put it here
     .add('start') // Use a label to sync screen and content animation
     .call(contentReset, [container])
     .set(container.querySelector('.contents'), {
@@ -39,26 +45,13 @@ function pageTransitionOut(container, pageName) {
       })
     .to(screenNum, {
       duration:0.6,
-      x: '-20vw',
-      width:'20vw',
-      skewX: 0,
+      opacity:0,
       transformOrigin: 'top left',
       ease:"power1.out",
+      onComplete:function(){
+        
+      }
     }, 'start')
-    .to(container.querySelector('.contents'), {
-      duration:0.6,
-      translateX: '0%',
-      opacity: 1,
-      ease: "power1.out",
-    }, 'start')
-    .to(screenNum, {
-        duration: 0,
-        x: '100vw',
-        transformOrigin: 'top left',
-      })
-
-
-
 }
 
 // Function to animate the content of each page
@@ -93,16 +86,33 @@ $(function() {
             
             async enter(data) {
                 $('#wrapper').removeClass('contact-secton')
+                $('.main-navigation h1 a').addClass('active')
+                $('.main-navigation ul li:eq(0) a').addClass('active')
+                $('.main-navigation ul li:eq(1) a').removeClass('active')
                 const pageName = data.next.namespace
                 pageTransitionOut(data.next.container, pageName)
                 var winw = $(window).width();
                 await window.initMain();
+                
+                setTimeout(() => {
+                    $('.video-con').click()
+                },0)
                 mainfunction()
             },
             async once(data) {
                 var winw = $(window).width();
                 await window.initMain();
                 mainfunction()
+                $('.main-navigation h1 a').addClass('active')
+                $('.main-navigation ul li:eq(0) a').addClass('active')
+                $('.main-navigation ul li:eq(0)').click(function(){
+                    $('.video-con').click()
+                })
+                $('.main-navigation h1').click(function(){
+                    if($('#wrapper').hasClass('work-secton') === true){
+                        $('.video-con').click()        
+                    }
+                })
             }
           }, {
             name: 'contact',
@@ -121,7 +131,9 @@ $(function() {
             async enter(data) {
                 $('#wrapper').removeClass('work-secton')
                 $('#wrapper').addClass('contact-secton')
-                $('.main-navigation li').eq(0).removeClass('default')
+                $('.main-navigation h1 a').removeClass('active')
+                $('.main-navigation ul li:eq(0) a').removeClass('active')
+                $('.main-navigation ul li:eq(1) a').addClass('active')
                 const pageName = data.next.namespace
                 await window.removeMain();
                 pageTransitionOut(data.next.container, pageName)
@@ -130,6 +142,7 @@ $(function() {
             },
             async once(data) {
                 $('#wrapper').addClass('contact-secton')
+                $('.main-navigation ul li:eq(1) a').addClass('active')
                 await init()
             }
           }
@@ -199,50 +212,51 @@ function slder(){
                 })
             },
             slidePrevTransitionStart : function() {
-                gsap.timeline()
-                .set('.work-block .block-box-side',{
-                    delay:0,
-                    duration:0,
-                    opacity:1,
-                    x:'-100%',
-                })
-                .to('.work-block .block-box-side',{
-                    delay:0.2,
-                    duration:0.4,
-                    x:0,
-                    ease: 'Power3.easeOut',
+                alert('asdasd')
+                // gsap.timeline()
+                // .set('.work-block .block-box-side',{
+                //     delay:0,
+                //     duration:0,
+                //     opacity:1,
+                //     x:'-100%',
+                // })
+                // .to('.work-block .block-box-side',{
+                //     delay:0.2,
+                //     duration:0.4,
+                //     x:0,
+                //     ease: 'Power3.easeOut',
                     
-                })
-                .to('.work-block .block-box-side',{
-                    delay:0.4,
-                    duration:0.8,
-                    x:'100%',
-                    ease: 'Power3.easeOut',
+                // })
+                // .to('.work-block .block-box-side',{
+                //     delay:0.4,
+                //     duration:0.8,
+                //     x:'100%',
+                //     ease: 'Power3.easeOut',
                     
-                })
+                // })
             },
             slideNextTransitionStart : function() {
-                gsap.timeline()
-                .set('.work-block .block-box-side',{
-                    delay:0,
-                    duration:0,
-                    opacity:1,
-                    x:'100%',
-                })
-                .to('.work-block .block-box-side',{
-                    delay:0.2,
-                    duration:0.4,
-                    x:0,
-                    ease: 'Power3.easeOut',
+                // gsap.timeline()
+                // .set('.work-block .block-box-side',{
+                //     delay:0,
+                //     duration:0,
+                //     opacity:1,
+                //     x:'100%',
+                // })
+                // .to('.work-block .block-box-side',{
+                //     delay:0.2,
+                //     duration:0.4,
+                //     x:0,
+                //     ease: 'Power3.easeOut',
                     
-                })
-                .to('.work-block .block-box-side',{
-                    delay:0.4,
-                    duration:0.8,
-                    x:'-100%',
-                    ease: 'Power3.easeOut',
+                // })
+                // .to('.work-block .block-box-side',{
+                //     delay:0.4,
+                //     duration:0.8,
+                //     x:'-100%',
+                //     ease: 'Power3.easeOut',
                     
-                })
+                // })
             },
         },
       });
@@ -256,44 +270,48 @@ function mainfunction() {
         }
         if(flag == true){
             flag = false;
-            gsap.to('.video-list-wrap .video-dim',{
+            gsap.timeline({ delay: 0})
+            .add('start')
+            .set('.video-list',{
+                x:'100vw',
+            },'start')
+            .to('.video-list-wrap .video-dim',{
                 opacity:1,
-                onComplete:function(){
+                onStart:function(){
                     $('#wrapper').addClass('work-secton')
                     $('#header').addClass('normal')    
                 }
+            },'start')
+            .to('.video-list',{
+                x:'0',
+            },'start')
+            .to('.bottom-text',{
+                opacity:0,
+            },'start')
+            .to('.footer-s',{
+                opacity:1,
             })
-            setTimeout(() => {
-                gsap.timeline()
-                .set('.video-list',{
-                    x:'100vw',
-                })
-                .to('.video-list',{
-                    x:'0',
-                })
-            }, 0);
-            
         } else if(flag == false){
             flag = true;
-            gsap.timeline()
-                .to('.video-list',{
-                    x:'100vw',
-                    ease: 'Power1.easeOut',
-                    onComplete:function(){
-                        // swiper.destroy();
-                        // swiper = undefined;
-                    }
-                })
-            setTimeout(() => {
-                gsap.to('.video-list-wrap .video-dim',{
-                    opacity:0,
-                    onComplete:function(){
-                        $('#wrapper').removeClass('work-secton')
-                        $('#header').removeClass('normal')    
-                    }
-                })
-            }, 0);
-            
+            gsap.timeline({ delay: 0})
+            .add('start')
+            .to('.video-list',{
+                x:'100vw',
+                ease: 'Power1.easeOut',
+            },'start')
+            .to('.video-list-wrap .video-dim',{
+                opacity:0,
+                onStart:function(){
+                    $('#wrapper').removeClass('work-secton')
+                    $('#header').removeClass('normal')    
+                }
+            },'start')
+            .to('.bottom-text',{
+                opacity:1,
+            })
+            .to('.footer-s',{
+                opacity:0,
+            },'start')
         }
     })
 }
@@ -330,6 +348,12 @@ function init() {
 
 
 function commonTween() {
+    $('.main-navigation a').on('click',function(){
+        if($(this).hasClass('active')){
+            return false;
+        }
+    })
+    
     
     $('.tada').each(function (e) {
         let tada = $(this)
@@ -688,14 +712,13 @@ ShuffleText.prototype.iteration = function(ev) {
 
 (function() {
     $(function () {
-        var classes = document.getElementsByClassName('shuffleText');
+        var classes = document.getElementsByClassName('shuffleText-menu');
         for (var i = 0; i < classes.length; i++) {
             var shuffleText = new ShuffleText(classes[i], false, false, 8, 50, 0, i);
             $(classes[i]).data('shuffleText', shuffleText);
         }
     });
 })();
-
 
 
 
