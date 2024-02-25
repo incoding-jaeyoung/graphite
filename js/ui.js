@@ -95,7 +95,7 @@ $(function() {
                 await window.initMain();
                 
                 setTimeout(() => {
-                    $('.video-con').click()
+                   // $('.video-con').click()
                 },0)
                 mainfunction()
             },
@@ -618,96 +618,97 @@ function closeLayer(no) {
 
 
 /* 글자섞기 */
-function ShuffleText(element, onload, delay, iterationNumber, iterationSpeed, displayedSpeed, index, useEvent = true) {
+function ShuffleText(element, onload, delay, iterationNumber, iterationSpeed, displayedSpeed, index) {
     this.element = element;
     this.onload = onload;
     this.index = delay === true ? index + 1 : 1;
-    this.texts = this.element.textContent;
-    this.startTexts = this.texts;
-    this.iterationNumber = this.texts.length;
+    this.iterationNumber = iterationNumber;
     this.iterationSpeed = iterationSpeed;
     this.displayedSpeed = displayedSpeed;
-
+    this.texts = this.element.textContent;
+    this.startTexts = this.texts;
     this.textsArr = [];
     this.textsNewArr = [];
     this.newText = '';
     this.isRunning = false;
-    this.renderCount = 0;
-
-    if(useEvent) this.setupEvents();
-}
-
-ShuffleText.prototype.setupEvents = function() {
+  
+    this.setupEvents();
+  }
+  
+  ShuffleText.prototype.setupEvents = function() {
     if (this.onload === true) {
-        this.iteration();
+      this.iteration();
     }
+    
     var that = this;
     this.element.addEventListener('mouseover', function() {
-        that.iteration(true);
+      that.iteration(true);
     }, false);
-};
-
-ShuffleText.prototype.createNewArr = function() {
+  };
+  
+  ShuffleText.prototype.createNewArr = function() {
     for (var i = 0; i < this.texts.length; i++) {
-        this.textsArr.push(this.texts[i]);
+      this.textsArr.push(this.texts[i]);
     }
-    this.textsNewArr = this.textsArr;
-};
-
-ShuffleText.prototype.createNewTexts = function() {
+    
+    while(this.textsArr.length > 0) {
+      var num = Math.floor(this.textsArr.length * Math.random());
+      this.textsNewArr.push(this.textsArr[num]);
+      this.textsArr.splice(num, 1);
+    }
+  };
+  
+  ShuffleText.prototype.createNewTexts = function() {
     for (var i = 0; i < this.textsNewArr.length; i++) {
-        var num = i + this.renderCount;
-        if(num >= this.textsNewArr.length) num = num - this.textsNewArr.length;
-        this.newText += this.textsNewArr[num];
+      this.newText += this.textsNewArr[i];
     }
+    
     this.element.textContent = this.newText;
-};
-
-ShuffleText.prototype.reset = function() {
+  };
+  
+  ShuffleText.prototype.reset = function() {
     this.newText = '';
     this.textsArr = [];
     this.textsNewArr = [];
-};
-
-ShuffleText.prototype.render = function() {
+  };
+  
+  ShuffleText.prototype.render = function() {
     this.createNewArr();
     this.createNewTexts();
     this.reset();
-};
-
-ShuffleText.prototype.iteration = function(ev) {
+  };
+  
+  ShuffleText.prototype.iteration = function(ev) {
     if (this.isRunning !== false) return;
     if (ev === true) this.index = 1;
-
+    
     this.isRunning = true;
-    this.renderCount = 0;
-
+    
     var that = this;
     for (var i = 0; i < this.iterationNumber; i++) {
-        (function(i) {
+      (function(i) {
         setTimeout(function() {
-            that.renderCount++;
-            that.render();
-            
-            if (i === that.iterationNumber - 1) {
+          that.render();
+          
+          if (i === that.iterationNumber - 1) {
             that.element.textContent = '';
             
             for (var j = 0; j < that.startTexts.length; j++) {
-                (function(j) {
+              (function(j) {
                 setTimeout(function() {
-                    that.element.textContent += that.startTexts[j];
-                    
-                    if (j === that.startTexts.length - 1) {
+                  that.element.textContent += that.startTexts[j];
+                  
+                  if (j === that.startTexts.length - 1) {
                     that.isRunning = false;
-                    }
+                  }
                 }, j * that.displayedSpeed);
-                })(j);
+              })(j);
             }
-            }
+          }
         }, i * that.index * that.iterationSpeed);
-        })(i);
+      })(i);
     }
-};
+  };
 
 
 (function() {
