@@ -23,6 +23,7 @@
    let swiper;
    let isMobile = false;
    
+   
 
    window.initMain = () => {
       
@@ -36,30 +37,26 @@
             $("body").addClass('mobile');
          }
          
-         const videoEl = $(`<video playsinline muted><source src="./video/${videos[0]}" type="video/mp4" /></video>`);
-         $(".main-content .video-con").append(videoEl);
-         targetVideo = $(".main-content .video-con > video")[0];
-         targetVideo.load();
          videos.forEach((x, i) => {
-            // $(".mySwiper .swiper-slide").eq(i).find(".image a").append(`<img src="${x.thumb}" />`);
-            // $(".mySwiper .swiper-slide").eq(i).find("dl").append(x.title);
+            const videoEl = $(`<video playsinline muted><source src="./video/${x}" type="video/mp4" /></video>`);
+            $(".main-content .video-con").append(videoEl);
+            videoEl[0].load();
+            videoEl.one("loadedmetadata", () => {
+               count++;
+               if(count === videos.length) init();
+            });
+            
             $(".mySwiper .swiper-slide").eq(i).find(".num").html(pad(i+1, 2));
-            var dd = $(".mySwiper .swiper-slide").eq(i).find("dd");
-            var shuffleText1 = new ShuffleText(dd.eq(0)[0], false, false, 8, 30, 0, 11+i, false);
-            var shuffleText2 = new ShuffleText(dd.eq(1)[0], false, false, 8, 30, 0, 11+i, false);
-            dd.eq(0).data('shuffleText', shuffleText1);
-            dd.eq(1).data('shuffleText', shuffleText2);
          });
-         
-         init();
-         
-         
+
+         $(".main-content .video-con > video").hide().eq(0).show();
+
       }
       // $("html,body").css({overflow: "hidden"});
       setTimeout(() => {
          if(!$('.close button').data('shuffleText')){
             var shuffleText = new ShuffleText($('.close button')[0], false, false, 8, 50, 0, 10);
-            $('.close button').data('shuffleText', shuffleText);
+            $('.close button').data('shuffleText', shuffleText).addClass("shuffleText-menu");
          }   
       }, 500);
    }
@@ -155,15 +152,7 @@
       $(window).trigger('resize');
       
       $(".mySwiper .swiper-slide").each(function (i) {
-         $(this).find(".block").on('mouseenter', () => {
-            if(isMobile) return;
-            if(!detail){
-               var dd = $(this).find("dd");
-               dd.eq(0).data('shuffleText').iteration(true);
-               setTimeout(() => dd.eq(1).data('shuffleText').iteration(true), 1000/30)
-            }
-         });
-
+         
          $(this).find('.block').on('click', ( e ) => {
             if(!isMobile) {
                var arrow = videoIndex < i ? 'right' : 'left';
@@ -280,6 +269,12 @@
          gsap.to($(".mySwiper .swiper-slide .block"), 0.4, {x: 0, ease: Cubic.easeOut });
          $('.video-dim').show();
          targetVideo.play();
+         setTimeout(() => {
+            $(".shuffleText-menu").each(function (){
+                if($(this).data('shuffleText'))
+                    $(this).data('shuffleText').iteration(true);
+            });
+         });
       });
       
 
@@ -357,11 +352,11 @@
    function detailMove(speed) {
       $(".mySwiper .swiper-slide").each(function (i) {
          if(i < videoIndex) {
-            gsap.to($(this).find(".block"), speed, {x: (-$(window).width()/2) * 0.68, ease: Cubic.easeOut });
+            gsap.to($(this).find(".block"), speed, {x: (-$(window).width()/2) * 0.68, ease: Cubic.easeInOut });
          } else if(i > videoIndex) {
-            gsap.to($(this).find(".block"), speed, {x: ($(window).width()/2) * 0.68, ease: Cubic.easeOut });
+            gsap.to($(this).find(".block"), speed, {x: ($(window).width()/2) * 0.68, ease: Cubic.easeInOut });
          } else {
-            gsap.to($(this).find(".block"), speed, {x: 0, ease: Cubic.easeOut });
+            gsap.to($(this).find(".block"), speed, {x: 0, ease: Cubic.easeInOut });
          }
       });
    }
@@ -370,10 +365,14 @@
       if(swiper) {
          swiper.slideTo(videoIndex);
       }
+      $(".main-content .video-con > video").each(function () {
+         $(this)[0].pause();
+      });
       $(".mySwiper .swiper-slide").removeClass('active').eq(videoIndex).addClass('active');
       $(".mySwiper .swiper-slide").eq(videoIndex).find('.timeline > span').css({width: `0%`});
-      $(".main-content .video-con > video > source").attr('src', `./video/${videos[videoIndex]}`);
-      targetVideo.load();
+      $(".main-content .video-con > video").hide().eq(videoIndex).show();
+      targetVideo = $(".main-content .video-con > video").eq(videoIndex)[0];
+      targetVideo.currentTime = 0;
       targetVideo.play();
       timer = setInterval(() => onUpdate(), 1000/60);
       

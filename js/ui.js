@@ -75,11 +75,18 @@ $(function() {
             to: { namespace: ['index'] },
             async leave(data) {
                 const pageName = data.next.namespace
+                
+                setTimeout(() => {
+                    $(".shuffleText-menu").each(function (){
+                        if($(this).data('shuffleText'))
+                            $(this).data('shuffleText').iteration(true);
+                    });
+                });
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
                 $('html,body').animate({
                     scrollTop:0
-                },300)
+                },300);
             },
 
             
@@ -93,11 +100,10 @@ $(function() {
                 pageTransitionOut(data.next.container, pageName)
                 var winw = $(window).width();
                 await window.initMain();
-                
-                setTimeout(() => {
-                   // $('.video-con').click()
-                },0)
                 mainfunction()
+                makeShuffleText();
+                
+                
             },
             async once(data) {
                 var winw = $(window).width();
@@ -119,14 +125,19 @@ $(function() {
             to: { namespace: ['contact'] },
             async leave(data) {
                 const  pageName = data.next.namespace
+                
+                setTimeout(() => {
+                    $(".shuffleText-menu").each(function (){
+                        if($(this).data('shuffleText'))
+                            $(this).data('shuffleText').iteration(true);
+                    });
+                });
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
                 $('html,body').animate({
                     scrollTop:0
                 },300)
-                setTimeout(() => {
-                    
-                }, 400);
+                
             },
             async enter(data) {
                 $('#wrapper').removeClass('work-secton')
@@ -138,6 +149,8 @@ $(function() {
                 await window.removeMain();
                 pageTransitionOut(data.next.container, pageName)
                 await init()
+                makeShuffleText();
+                
                 
             },
             async once(data) {
@@ -483,7 +496,6 @@ function commonTween() {
                 let slide = $('.right-slide .swiper-wrapper .swiper-slide').width()
                 let innerWidth = $('.right-slide .swiper-wrapper .swiper-slide').length
                 let full = slide * innerWidth
-                console.log(slideWidth, slide * innerWidth, full - slideWidth)
                 let text = $(this)
                 const leftMotion = gsap.timeline({
                     scrollTrigger: {
@@ -618,7 +630,7 @@ function closeLayer(no) {
 
 
 /* 글자섞기 */
-function ShuffleText(element, onload, delay, iterationNumber, iterationSpeed, displayedSpeed, index) {
+function ShuffleText(element, onload, delay, iterationNumber, iterationSpeed, displayedSpeed, index, noMouse = false) {
     this.element = element;
     this.onload = onload;
     this.index = delay === true ? index + 1 : 1;
@@ -631,8 +643,10 @@ function ShuffleText(element, onload, delay, iterationNumber, iterationSpeed, di
     this.textsNewArr = [];
     this.newText = '';
     this.isRunning = false;
-  
-    this.setupEvents();
+    
+    if(!noMouse) {
+        this.setupEvents();
+    }
   }
   
   ShuffleText.prototype.setupEvents = function() {
@@ -642,7 +656,8 @@ function ShuffleText(element, onload, delay, iterationNumber, iterationSpeed, di
     
     var that = this;
     this.element.addEventListener('mouseover', function() {
-      that.iteration(true);
+        
+        that.iteration(true);
     }, false);
   };
   
@@ -709,17 +724,27 @@ function ShuffleText(element, onload, delay, iterationNumber, iterationSpeed, di
       })(i);
     }
   };
+  
+  
+  (function() {
+    window.addEventListener('load', makeShuffleText, false);
+  })();
 
 
-(function() {
-    $(function () {
-        var classes = document.getElementsByClassName('shuffleText-menu');
-        for (var i = 0; i < classes.length; i++) {
-            var shuffleText = new ShuffleText(classes[i], false, false, 8, 50, 0, i);
+  function makeShuffleText () {
+    var classes = document.getElementsByClassName('shuffleText-menu');
+    for (var i = 0; i < classes.length; i++) {
+        
+        if(!$(classes[i]).data('shuffleText')){
+            var shuffleText;
+            if($(classes[i]).is(".no-mouse")) {
+                shuffleText = new ShuffleText(classes[i], false, false, 7, 50, 0, i, true);
+            } else {
+                shuffleText = new ShuffleText(classes[i], false, false, 7, 50, 0, i);
+            }
             $(classes[i]).data('shuffleText', shuffleText);
         }
-    });
-})();
-
+    }
+  }
 
 
