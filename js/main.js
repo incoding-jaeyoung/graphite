@@ -350,13 +350,14 @@
    } 
 
    function detailMove(speed) {
+      var ease = speed === 0.6 ? Cubic.easeInOut : Cubic.easeOut;
       $(".mySwiper .swiper-slide").each(function (i) {
          if(i < videoIndex) {
-            gsap.to($(this).find(".block"), speed, {x: (-$(window).width()/2) * 0.68, ease: Cubic.easeInOut });
+            gsap.to($(this).find(".block"), speed, {x: (-$(window).width()/2) * 0.68, ease: ease });
          } else if(i > videoIndex) {
-            gsap.to($(this).find(".block"), speed, {x: ($(window).width()/2) * 0.68, ease: Cubic.easeInOut });
+            gsap.to($(this).find(".block"), speed, {x: ($(window).width()/2) * 0.68, ease: ease });
          } else {
-            gsap.to($(this).find(".block"), speed, {x: 0, ease: Cubic.easeInOut });
+            gsap.to($(this).find(".block"), speed, {x: 0, ease: ease });
          }
       });
    }
