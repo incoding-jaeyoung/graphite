@@ -629,10 +629,12 @@ a:hover{color:inherit;}
 .contact-contents dl:first-of-type dd{text-indent: 0rem;}
 .work-secton .footer-s{display: none;}
 .footer-s{position: static; margin-top: 10rem; padding-bottom: 1.4rem;}
+.footer-s.work-footer{display: none;}
 .footer-s h1{padding: 0; font-size: 2.3rem; letter-spacing: -0.092rem;}
 .footer-s p{display: none;}
 .pc-view{display: none;}
 .mob-view{display:block;}
+.bottom-text{display: none;}
 }
 
 .layer-player{position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index:999; background-color: #000; display: flex; flex-direction: column; justify-content: center;}
