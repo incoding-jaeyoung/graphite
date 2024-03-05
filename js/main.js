@@ -285,12 +285,16 @@
          if(!$(this).is(".active")) {
             $(this).addClass('active');
             $(".layer-player .sound-btn").addClass('active').text('Sound OFF');
-            $(".main-content .video-con > video")[0].muted = false;
+            $(".main-content .video-con > video").each(function () {
+               $(this)[0].muted = false
+            });
             $(".layer-player .popup-video > video")[0].muted = false;
          } else {
             $(this).removeClass('active');
             $(".layer-player .sound-btn").removeClass('active').text('Sound ON');
-            $(".main-content .video-con > video")[0].muted = true;
+            $(".main-content .video-con > video").each(function () {
+               $(this)[0].muted = true
+            });
             $(".layer-player .popup-video > video")[0].muted = true;
          }
       });
@@ -299,12 +303,16 @@
          if(!$(this).is(".active")) {
             $(this).addClass('active');
             $(".layer-player .sound-btn").addClass('active').text('Sound OFF');
-            $(".main-content .video-con > video")[0].muted = false;
+            $(".main-content .video-con > video").each(function () {
+               $(this)[0].muted = false
+            });
             $(".layer-player .popup-video > video")[0].muted = false;
          } else {
             $(this).removeClass('active');
             $(".layer-player .sound-btn").removeClass('active').text('Sound ON');
-            $(".main-content .video-con > video")[0].muted = true;
+            $(".main-content .video-con > video").each(function () {
+               $(this)[0].muted = true
+            });
             $(".layer-player .popup-video > video")[0].muted = true;
          }
       });
