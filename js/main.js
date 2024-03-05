@@ -42,6 +42,7 @@
             $(".main-content .video-con").append(videoEl);
             videoEl[0].load();
             videoEl.one("loadedmetadata", () => {
+               
                count++;
                if(count === videos.length) init();
             });
@@ -81,6 +82,8 @@
       if(!isMobile) {
          playVideo();
       }
+
+      $(".main-content .video-con > video").each((i) => setTime(i));
 
       $(window).on('resize', function () {
          var fullScreenElement = document.fullscreenElement || document.msFullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
@@ -414,7 +417,7 @@
          percent = targetVideo.currentTime / targetVideo.duration;
          if(!isMobile) {
             $(".mySwiper .swiper-slide").eq(videoIndex).find('.timeline > span').css({width: `${percent*100}%`});
-            setTime();
+            setTime(videoIndex);
             if(parseInt(targetVideo.currentTime) >= parseInt(targetVideo.duration)) {
                $(".mySwiper .swiper-slide").eq(videoIndex).find('.timeline > span').css({width: `100%`});
                clearInterval(timer);
@@ -437,14 +440,14 @@
       } catch(e){}
    }
 
-   function setTime () {
-      const time = targetVideo.duration * percent;
+   function setTime ( idx ) {
+      const time = $(".main-content .video-con > video").eq(idx)[0].duration * percent;
       const sm = Math.floor( time / 60 );
       const ss = Math.floor( time % 60 );
-      const em = Math.floor( targetVideo.duration / 60 );
-      const es = Math.floor( targetVideo.duration % 60 );
-      $(".mySwiper .swiper-slide").eq(videoIndex).find('.playtime > span').eq(0).text(`${sm}:${pad(ss, 2)}`);
-      $(".mySwiper .swiper-slide").eq(videoIndex).find('.playtime > span').eq(1).text(`${em}:${pad(es, 2)}`);
+      const em = Math.floor( $(".main-content .video-con > video").eq(idx)[0].duration / 60 );
+      const es = Math.floor( $(".main-content .video-con > video").eq(idx)[0].duration % 60 );
+      $(".mySwiper .swiper-slide").eq(idx).find('.playtime > span').eq(0).text(`${sm}:${pad(ss, 2)}`);
+      $(".mySwiper .swiper-slide").eq(idx).find('.playtime > span').eq(1).text(`${em}:${pad(es, 2)}`);
    }
 
    function pad(num, size) {
