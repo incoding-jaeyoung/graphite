@@ -382,8 +382,14 @@
       });
       $(".mySwiper .swiper-slide").removeClass('active').eq(videoIndex).addClass('active');
       $(".mySwiper .swiper-slide").eq(videoIndex).find('.timeline > span').css({width: `0%`});
-      $(".main-content .video-con > video").hide().eq(videoIndex).show();
+      $(".main-content .video-con > video").eq(videoIndex).show().css({'z-index': 900});
       targetVideo = $(".main-content .video-con > video").eq(videoIndex)[0];
+      gsap.set(targetVideo, {opacity:0});
+      gsap.to(targetVideo, 0.4, { opacity:1, onComplete: () => {
+         $(".main-content .video-con > video").hide();
+         $(targetVideo).show().css({'z-index': ''});
+      }});
+      
       targetVideo.currentTime = 0;
       targetVideo.play();
       timer = setInterval(() => onUpdate(), 1000/60);
