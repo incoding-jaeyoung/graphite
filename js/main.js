@@ -216,9 +216,10 @@
                      }
                   })
                   .to('.work-block .block-box', {
-                     duration: 0.4,
-                     delay: 0.5,
-                     height: 0,
+                     duration: 0.8,
+                     delay: 0.2,
+                     // height: 0,
+                     opacity:0,
                      onStart: () => {
                         
                      }
@@ -345,7 +346,7 @@
          freeMode: true,
          centeredSlides: true,
          slideWidth:'auto',
-         spaceBetween:30,
+         spaceBetween:20,
          observer : true,
          observeParents : true,
          mousewheel: true,
