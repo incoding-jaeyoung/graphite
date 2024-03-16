@@ -157,6 +157,7 @@
       $(".mySwiper .swiper-slide").each(function (i) {
          
          $(this).find('.block').on('click', ( e ) => {
+            
             if(!isMobile) {
                var arrow = videoIndex < i ? 'right' : 'left';
                videoIndex = i;
@@ -173,60 +174,89 @@
                   $('.work-block .block-box').data("w", w).data("h", h);
 
                   $(".block-box-side").css({opacity: 0});
-                  gsap.set('.work-block', {x: 0, y: 0, width: '100%', height: '100%'});
-                  gsap.timeline()
-                  .set('.work-block .block-box', {
-                     opacity: 1,
-                     x: $(this).find(".image").offset().left,
-                     y: $(this).find(".image").offset().top,
-                     width: 0,
-                     height: $('.work-block .block-box').data('h'),
-                  })
-                  .to('.work-block .block-box', {
-                     duration: 0.4,
-                     width: $('.work-block .block-box').data('w'),
-                     onUpdate: () => {
-                        gsap.set('.work-block .block-box', {
-                           x: $(this).find(".image").offset().left,
-                           y: $(this).find(".image").offset().top,
-                        })
-                     }
-                  })
-                  .to('.work-block .block-box', {
-                     duration: 0.4,
-                     x:0, 
-                     y:0, 
-                     width: $(window).width(), 
-                     height: $(window).height(),
-                     onStart: () => {
-                        swiper.slideTo(i, 400);
-                        detailMove(0.4);
-                        targetVideo.pause();
-                        $('.contents-wrap').addClass('detail');
-                     },
-                     onComplete: () => {
-                        $(".mySwiper").addClass('detail');
-                        $('#header').hide()
-                        $('.video-dim').hide()
-                        $('.close').show();
-                        $(".mySwiper .swiper-slide").removeClass('active');
-                        $(".mySwiper .swiper-slide").eq(videoIndex).addClass('active');
-                        $(".mySwiper .swiper-slide").eq(videoIndex).find('.control').addClass('active playing').removeClass('paused');
-                        playVideo();
-                     }
-                  })
-                  .to('.work-block .block-box', {
-                     duration: 0.8,
-                     delay: 0.2,
-                     // height: 0,
-                     opacity:0,
-                     onStart: () => {
-                        
-                     }
-                  });
+                  if($(this).hasClass('active')){
+                           swiper.slideTo(i, 400);
+                           detailMove(0.4);
+                           targetVideo.pause();
+                           $('.contents-wrap').addClass('detail');
+                           $(".mySwiper").addClass('detail');
+                           $('#header').hide()
+                           $('.video-dim').hide()
+                           $('.close').show();
+                           $(".mySwiper .swiper-slide").removeClass('active');
+                           $(".mySwiper .swiper-slide").eq(videoIndex).addClass('active');
+                           $(".mySwiper .swiper-slide").eq(videoIndex).find('.control').addClass('active playing').removeClass('paused');
+                           playVideo();
+                           if ($(".video-con video").prop('muted')) {
+                              $(".main-content .sound").click();
+                           } else {
+                                 
+                           }
+                           
+                  }
+                  else{
+                     gsap.set('.work-block', {x: 0, y: 0, width: '100%', height: '100%'});
+                     gsap.timeline()
+                     .set('.work-block .block-box', {
+                        opacity: 1,
+                        x: $(this).find(".image").offset().left,
+                        y: $(this).find(".image").offset().top,
+                        width: 0,
+                        height: $('.work-block .block-box').data('h'),
+                     })
+                     .to('.work-block .block-box', {
+                        duration: 0.4,
+                        width: $('.work-block .block-box').data('w'),
+                        ease: 'power3.inOut',
+                        onUpdate: () => {
+                           gsap.set('.work-block .block-box', {
+                              x: $(this).find(".image").offset().left,
+                              y: $(this).find(".image").offset().top,
+                           })
+                        }
+                     })
+                     .to('.work-block .block-box', {
+                        duration: 0.4,
+                        x:0, 
+                        y:0, 
+                        // ease: 'power3.inOut',
+                        width: $(window).width(), 
+                        height: $(window).height(),
+                        onStart: () => {
+                           swiper.slideTo(i, 400);
+                           detailMove(0.4);
+                           targetVideo.pause();
+                           $('.contents-wrap').addClass('detail');
+                        },
+                        onComplete: () => {
+                           $(".mySwiper").addClass('detail');
+                           $('#header').hide()
+                           $('.video-dim').hide()
+                           $('.close').show();
+                           $(".mySwiper .swiper-slide").removeClass('active');
+                           $(".mySwiper .swiper-slide").eq(videoIndex).addClass('active');
+                           $(".mySwiper .swiper-slide").eq(videoIndex).find('.control').addClass('active playing').removeClass('paused');
+                           playVideo();
+                           if ($(".video-con video").prop('muted')) {
+                              $(".main-content .sound").click();
+                           } else {
+                                 
+                           }
+                        }
+                     })
+                     .to('.work-block .block-box', {
+                        duration: 0.8,
+                        delay: 0.2,
+                        // height: 0,
+                        opacity:0,
+                        onStart: () => {
+                           
+                        }
+                     });
+                  }
+                  
                   
                } else {
-                  
                   if($(this).is(".active")) {
                      if($(this).find(".control").is(".playing")) {
                         $(this).find(".control").removeClass("playing").addClass('paused');
@@ -236,6 +266,7 @@
                         targetVideo.play();
                      }
                   } else {
+
                      // gsap.set('.work-block', {x: arrow === 'left' ? 0 : $(window).width(), y: 0, width: 0, height: '100%'});
                      // gsap.set('.work-block .block-box', {opacity: 1, x: 0, y: 0, width: '100%', height: '100%'});
                      gsap.to('.work-block', 0.4, {x:0, width: '100%', onComplete: () => {
@@ -391,7 +422,7 @@
          $(targetVideo).show().css({'z-index': ''});
       }});
       
-      targetVideo.currentTime = 0;
+      // targetVideo.currentTime = 0;
       targetVideo.play();
       timer = setInterval(() => onUpdate(), 1000/60);
       
@@ -412,12 +443,22 @@
          if(!$(this).is(".active")) {
             $(this).addClass("active").text('PAUSE');
             targetVideo.play()
+            
 
          } else {
             $(this).removeClass("active").text('PLAY');
+            
             targetVideo.pause()
          }
       });
+      if(!$(this).find('.sound-btn').is(".active")) {
+         console.log('asdasd')
+         $(".layer-player .sound-btn").addClass('active').text('Sound OFF');
+         $(".layer-player .popup-video > video")[0].muted = false;
+      } else {
+         $(".layer-player .sound-btn").removeClass('active').text('Sound ON');
+         $(".layer-player .popup-video > video")[0].muted = true;
+      }
    }
 
    function closeLayerPopup () {
@@ -463,6 +504,10 @@
       const es = Math.floor( $(".main-content .video-con > video").eq(idx)[0].duration % 60 );
       $(".mySwiper .swiper-slide").eq(idx).find('.playtime > span').eq(0).text(`${sm}:${pad(ss, 2)}`);
       $(".mySwiper .swiper-slide").eq(idx).find('.playtime > span').eq(1).text(`${em}:${pad(es, 2)}`);
+
+      $(".layer-player").find('.playtime > span').eq(0).text(`${sm}:${pad(ss, 2)}`);
+      $(".layer-player").find('.playtime > span').eq(1).text(`${em}:${pad(es, 2)}`);
+      
    }
 
    function pad(num, size) {

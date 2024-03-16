@@ -284,6 +284,9 @@ function mainfunction() {
             .set('.video-list',{
                 x:'100vw',
             },'start')
+            .set('.video-list .swiper-slide',{
+                marginLeft:'20rem',
+            },'start')
             .to('.video-list-wrap .video-dim',{
                 opacity:1,
                 onStart:function(){
@@ -293,6 +296,14 @@ function mainfunction() {
             },'start')
             .to('.video-list',{
                 x:'0',
+                ease: 'power2.inOut',
+            },'start')
+            .to('.video-list .swiper-slide',{
+                // duration:0.4,
+                marginLeft:'0rem',
+                ease: 'Power4.easeIn',
+                // x:'0',
+                // stagger: 0.1
             },'start')
             .to('.bottom-text',{
                 opacity:0,
@@ -306,8 +317,17 @@ function mainfunction() {
             .add('start')
             .to('.video-list',{
                 x:'100vw',
-                ease: 'Power1.easeOut',
+                ease: 'power2.inOut',
             },'start')
+            // .to('.video-list .swiper-slide',{
+            //     x:'100vw',
+            //     // stagger:0.05,
+            //     stagger:{
+            //         from:"end", 
+            //         each:0.05
+            //     }, 
+            //     // ease: 'Power1.easeOut',
+            // },'start')
             .to('.video-list-wrap .video-dim',{
                 opacity:0,
                 onStart:function(){
@@ -686,6 +706,24 @@ function ShuffleText(element, onload, delay, iterationNumber, iterationSpeed, di
             $(classes[i]).data('shuffleText', shuffleText);
         }
     }
+    $(".swiper-slide .block").each(function (i) {
+        var dt = $(this).find("dt");
+        var dd = $(this).find("dd");
+        var time = $(this).find(".playtime span");
+        var shuffleText1 = new ShuffleText(dt.eq(0)[0], false, false, 8, 60, 0, 11+i);
+        var shuffleText2 = new ShuffleText(dd.eq(0)[0], false, false, 8, 60, 0, 11+i);
+        var shuffleText3 = new ShuffleText(dd.eq(1)[0], false, false, 8, 60, 0, 11+i);
+        // var time1 = new ShuffleText(time.eq(0)[0], false, false, 8, 60, 0, 11+i);
+        // var time2 = new ShuffleText(time.eq(1)[0], false, false, 8, 60, 0, 11+i);
+
+        $(this).on('mouseenter', () => {
+            shuffleText1.iteration(true);
+            shuffleText2.iteration(true);
+            shuffleText3.iteration(true);
+            // time1.iteration(true);
+            // time2.iteration(true);
+        });
+    });
   }
 
 
