@@ -47,7 +47,7 @@
                if(count === videos.length) init();
             });
             
-            $(".mySwiper .swiper-slide").eq(i).find(".num").html(pad(i+1, 2));
+            $(".mySwiper .swiper-slide").eq(i).find(".num span").html(pad(i+1, 2));
          });
 
          $(".main-content .video-con > video").hide().eq(0).show();
@@ -181,12 +181,14 @@
                            $('.contents-wrap').addClass('detail');
                            $(".mySwiper").addClass('detail');
                            $('#header').hide()
-                           $('.video-dim').hide()
+                           // $('.video-dim').hide()
                            $('.close').show();
                            $(".mySwiper .swiper-slide").removeClass('active');
                            $(".mySwiper .swiper-slide").eq(videoIndex).addClass('active');
                            $(".mySwiper .swiper-slide").eq(videoIndex).find('.control').addClass('active playing').removeClass('paused');
-                           playVideo();
+                           targetVideo.play();
+                           timer = setInterval(() => onUpdate(), 1000/60);
+                           // playVideo();
                            if ($(".video-con video").prop('muted')) {
                               $(".main-content .sound").click();
                            } else {
@@ -231,7 +233,7 @@
                         onComplete: () => {
                            $(".mySwiper").addClass('detail');
                            $('#header').hide()
-                           $('.video-dim').hide()
+                           // $('.video-dim').hide()
                            $('.close').show();
                            $(".mySwiper .swiper-slide").removeClass('active');
                            $(".mySwiper .swiper-slide").eq(videoIndex).addClass('active');
@@ -258,13 +260,13 @@
                   
                } else {
                   if($(this).is(".active")) {
-                     if($(this).find(".control").is(".playing")) {
-                        $(this).find(".control").removeClass("playing").addClass('paused');
-                        targetVideo.pause();
-                     } else {
-                        $(this).find(".control").addClass("playing").removeClass('paused');
-                        targetVideo.play();
-                     }
+                     // if($(this).find(".control").is(".playing")) {
+                     //    $(this).find(".control").removeClass("playing").addClass('paused');
+                     //    targetVideo.pause();
+                     // } else {
+                     //    $(this).find(".control").addClass("playing").removeClass('paused');
+                     //    targetVideo.play();
+                     // }
                   } else {
 
                      // gsap.set('.work-block', {x: arrow === 'left' ? 0 : $(window).width(), y: 0, width: 0, height: '100%'});
@@ -288,6 +290,15 @@
             }
             
          });
+         $(this).find('.control').on('click',()=>{
+            if($(this).find(".control").is(".playing")) {
+               $(this).find(".control").removeClass("playing").addClass('paused');
+               targetVideo.pause();
+            } else {
+               $(this).find(".control").addClass("playing").removeClass('paused');
+               targetVideo.play();
+            }
+         })
       });
       
 

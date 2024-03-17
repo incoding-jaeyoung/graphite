@@ -9,6 +9,7 @@ window.onload = function () {
         $('body').addClass('load')
     });
     commonTween()
+    
 }
 
 // const screenNum = '';
@@ -16,6 +17,31 @@ const loadingScreen = document.querySelector('.loading-screen')
 const loadingIndex = document.querySelector('.loading-screen.index')
 const loadingWork = document.querySelector('.loading-screen.work')
 const mainNavigation = document.querySelector('.main-navigation')
+
+
+function timerVar() {
+    $('#wrapper').addClass('dimmed'),
+    console.log('moveend')
+  }
+function dimmed(){
+    var x;
+    // var timerVar =  setInterval(() => 
+    //     $('#wrapper').addClass('dimmed'),
+    // 4000)
+    // var timerVar =  setInterval(function(){
+    //     $('#wrapper').addClass('dimmed')
+    //     console.log('moveend')
+    // },4000)
+
+    
+
+    document.addEventListener('mousemove', function() { 
+        $('#wrapper').removeClass('dimmed')
+        if (x) clearTimeout(x); 
+        x = setInterval(timerVar, 4000); 
+        console.log('move')
+    }, false);
+}
 
 // Function to add and remove the page transition screen
 function pageTransitionIn(pageName) {
@@ -65,9 +91,10 @@ function contentReset(container) {
 }
 
 
-
+let isMobile = false;
 
 $(function() {
+    isMobile = $(window).width() < 1000;
     barba.init({
         transitions: [
             {
@@ -99,6 +126,9 @@ $(function() {
                 await window.initMain();
                 mainfunction()
                 makeShuffleText();
+                if(!isMobile) {
+                    dimmed()
+                 } 
                 
                 
             },
@@ -116,6 +146,9 @@ $(function() {
                         $('.video-con').click()        
                     }
                 })
+                if(!isMobile) {
+                    dimmed()
+                 } 
             }
           }, {
             name: 'contact',
