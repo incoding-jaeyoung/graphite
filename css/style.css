@@ -744,7 +744,7 @@ a:hover{color:inherit;}
 #wrapper.dimmed .close{opacity: 0;}
 
 #wrapper.dimmed .contents-wrap.detail .video-dim{opacity: 0 !important;}
-#wrapper .video-list{transition: all 0.4s ease;}
+#wrapper.dimmed .video-list{transition: all 0.4s ease;}
 #wrapper.dimmed .contents-wrap.detail .video-list{opacity: 0 !important;}
 #wrapper.dimmed .contents-wrap.detail .sound{opacity: 0 !important;}
 #wrapper.dimmed .contents-wrap.detail .footer-s {opacity: 0 !important;}

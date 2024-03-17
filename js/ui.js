@@ -18,6 +18,26 @@ const loadingIndex = document.querySelector('.loading-screen.index')
 const loadingWork = document.querySelector('.loading-screen.work')
 const mainNavigation = document.querySelector('.main-navigation')
 
+function mousewheel(){
+    $("#wrapper").on("mousewheel",function(event,delta){
+        if(delta>0){
+            // if($('#wrapper').hasClass('work-secton') === true){
+            //     $('.video-con').click()        
+            // }
+        }else if(delta<0){
+            
+            if($('#wrapper').hasClass('work-secton') === false){
+                $('.video-con').click()        
+                console.log("마우스");
+            } else{
+                console.log("마우스111");
+            }
+        }
+
+        
+
+    });
+}
 
 function timerVar() {
     $('#wrapper').addClass('dimmed'),
@@ -128,6 +148,7 @@ $(function() {
                 makeShuffleText();
                 if(!isMobile) {
                     dimmed()
+                    mousewheel()
                  } 
                 
                 
@@ -148,6 +169,7 @@ $(function() {
                 })
                 if(!isMobile) {
                     dimmed()
+                    mousewheel()
                  } 
             }
           }, {

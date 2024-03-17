@@ -470,6 +470,7 @@
          $(".layer-player .sound-btn").removeClass('active').text('Sound ON');
          $(".layer-player .popup-video > video")[0].muted = true;
       }
+      setTimem(videoIndex);
    }
 
    function closeLayerPopup () {
@@ -499,6 +500,7 @@
             }
          } else {
             gsap.set($(".layer-player .bar-track"), {width: `${percent * 100}%`});
+            setTime(videoIndex);
             if(parseInt(targetVideo.currentTime) >= parseInt(targetVideo.duration)) {
                $(".layer-player .play-btn").removeClass("active").text('PLAY');
             }
@@ -515,10 +517,8 @@
       const es = Math.floor( $(".main-content .video-con > video").eq(idx)[0].duration % 60 );
       $(".mySwiper .swiper-slide").eq(idx).find('.playtime > span').eq(0).text(`${sm}:${pad(ss, 2)}`);
       $(".mySwiper .swiper-slide").eq(idx).find('.playtime > span').eq(1).text(`${em}:${pad(es, 2)}`);
-
       $(".layer-player").find('.playtime > span').eq(0).text(`${sm}:${pad(ss, 2)}`);
       $(".layer-player").find('.playtime > span').eq(1).text(`${em}:${pad(es, 2)}`);
-      
    }
 
    function pad(num, size) {
