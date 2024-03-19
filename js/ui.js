@@ -9,7 +9,7 @@ window.onload = function () {
         $('body').addClass('load')
     });
     commonTween()
-    
+    mousewheel()
 }
 
 // const screenNum = '';
@@ -19,24 +19,27 @@ const loadingWork = document.querySelector('.loading-screen.work')
 const mainNavigation = document.querySelector('.main-navigation')
 
 function mousewheel(){
-    $("#wrapper").on("mousewheel",function(event,delta){
-        if(delta>0){
-            // if($('#wrapper').hasClass('work-secton') === true){
-            //     $('.video-con').click()        
-            // }
-        }else if(delta<0){
-            
-            if($('#wrapper').hasClass('work-secton') === false){
-                $('.video-con').click()        
-                console.log("마우스");
-            } else{
-                console.log("마우스111");
+    if(!isMobile) {
+        $("#wrapper").on("mousewheel",function(event,delta){
+            if(!$('#wrapper').hasClass('contect-section')){
+                if(delta>0){
+                    // if($('#wrapper').hasClass('work-secton') === true){
+                    //     $('.video-con').click()        
+                    // }
+                }else if(delta<0){
+                    if($('#wrapper').hasClass('work-secton') === false){
+                        $('.video-con').click()        
+                        console.log("마우스");
+                    } else{
+                        console.log("마우스111");
+                    }
+                }
             }
-        }
-
-        
-
-    });
+            
+    
+        });
+     } 
+    
 }
 
 function timerVar() {
@@ -148,10 +151,7 @@ $(function() {
                 makeShuffleText();
                 if(!isMobile) {
                     dimmed()
-                    mousewheel()
                  } 
-                
-                
             },
             async once(data) {
                 var winw = $(window).width();
@@ -169,7 +169,7 @@ $(function() {
                 })
                 if(!isMobile) {
                     dimmed()
-                    mousewheel()
+                    
                  } 
             }
           }, {
@@ -224,111 +224,16 @@ function navClose(){
 
 var detailSwiper = '';
 
-// function slder(){
-//       detailSwiper = new Swiper(".detailSlider", {
-//         slidesPerView: "auto",
-//         // autoHeight: true,
-//         // freeMode: true,
-//         // minimumVelocity:1,
-//         speed: 1200,
-//         centeredSlides: true,
-//         slideWidth:'auto',
-//         spaceBetween:'36%',
-//         observer : true,
-//         allowTouchMove:false,
-//         observeParents : true,
-//         mousewheel: true,
-//         slideToClickedSlide:true,
-//         // thumbs: {
-//             // swiper: swiper,
-//         //   },
-//         on: {
-//             click() {
-//                 // console.log('index', this.clickedIndex);
-//                 // detailSwiper.slideTo(this.clickedIndex);
-//             },
-//             beforeDestroy:function(){
-//                 gsap.timeline()
-//                 .set('.mySwiper .block', {
-//                         // duration: 0.2, 
-//                         delay:0.1,
-//                         x: '100vw',
-//                         stagger: 0.1,
-//                         ease: 'Power1.easeOut'
-//                 })
-//             },
-//             beforeInit:function(){
-//                 gsap.to('.mySwiper .block', {
-//                     duration:0,
-//                     x: '100vw',
-//                 })
-//                 $('.mySwiper .swiper-slide').eq(0).addClass('active')
-//             },
-//             afterInit:function(){
-//                 // $('.video-list-wrap').css({opacity:1})
-//                 gsap.timeline()
-//                 .to('.mySwiper .block', {
-//                         // duration: 0.2, 
-//                         delay:0.1,
-//                         x: '0vw',
-//                         stagger: 0.1,
-//                         ease: 'Power1.easeOut'
-//                 })
-//             },
-//             slidePrevTransitionStart : function() {
-//                 alert('asdasd')
-//                 // gsap.timeline()
-//                 // .set('.work-block .block-box-side',{
-//                 //     delay:0,
-//                 //     duration:0,
-//                 //     opacity:1,
-//                 //     x:'-100%',
-//                 // })
-//                 // .to('.work-block .block-box-side',{
-//                 //     delay:0.2,
-//                 //     duration:0.4,
-//                 //     x:0,
-//                 //     ease: 'Power3.easeOut',
-                    
-//                 // })
-//                 // .to('.work-block .block-box-side',{
-//                 //     delay:0.4,
-//                 //     duration:0.8,
-//                 //     x:'100%',
-//                 //     ease: 'Power3.easeOut',
-                    
-//                 // })
-//             },
-//             slideNextTransitionStart : function() {
-//                 // gsap.timeline()
-//                 // .set('.work-block .block-box-side',{
-//                 //     delay:0,
-//                 //     duration:0,
-//                 //     opacity:1,
-//                 //     x:'100%',
-//                 // })
-//                 // .to('.work-block .block-box-side',{
-//                 //     delay:0.2,
-//                 //     duration:0.4,
-//                 //     x:0,
-//                 //     ease: 'Power3.easeOut',
-                    
-//                 // })
-//                 // .to('.work-block .block-box-side',{
-//                 //     delay:0.4,
-//                 //     duration:0.8,
-//                 //     x:'-100%',
-//                 //     ease: 'Power3.easeOut',
-                    
-//                 // })
-//             },
-//         },
-//       });
-// }
+
 function mainfunction() {
     let flag = true;
     // slder();
     $('.video-con').on('click',function(){
+        const winw = $(window).width()
+        const thumW = $('.swiper-wrapper .swiper-slide').width()+20
+        const thumNum = $('.swiper-wrapper .swiper-slide').length
+        const listWidth = thumW*thumNum + winw;
+
         if($('.contents-wrap').hasClass('detail')){
             return false;
         }
@@ -336,11 +241,12 @@ function mainfunction() {
             flag = false;
             gsap.timeline({ delay: 0})
             .add('start')
-            .set('.video-list',{
-                x:'100vw',
-            },'start')
+            // .set('.video-list',{
+            //     x:'100vw',
+            // },'start')
             .set('.video-list .swiper-slide',{
-                marginLeft:'20rem',
+                x:listWidth,
+                // marginLeft:'20rem',
             },'start')
             .to('.video-list-wrap .video-dim',{
                 opacity:1,
@@ -349,16 +255,15 @@ function mainfunction() {
                     $('#header').addClass('normal')    
                 }
             },'start')
-            .to('.video-list',{
-                x:'0',
-                ease: 'power2.inOut',
-            },'start')
+            // .to('.video-list',{
+            //     x:'0',
+            //     ease: 'power2.inOut',
+            // },'start')
             .to('.video-list .swiper-slide',{
                 // duration:0.4,
-                marginLeft:'0rem',
-                ease: 'Power4.easeIn',
-                // x:'0',
-                // stagger: 0.1
+                ease: 'Power3.easeOut',
+                x:'0',
+                stagger: 0.05
             },'start')
             .to('.bottom-text',{
                 opacity:0,
@@ -370,19 +275,19 @@ function mainfunction() {
             flag = true;
             gsap.timeline({ delay: 0})
             .add('start')
-            .to('.video-list',{
-                x:'100vw',
-                ease: 'power2.inOut',
-            },'start')
-            // .to('.video-list .swiper-slide',{
+            // .to('.video-list',{
             //     x:'100vw',
-            //     // stagger:0.05,
-            //     stagger:{
-            //         from:"end", 
-            //         each:0.05
-            //     }, 
-            //     // ease: 'Power1.easeOut',
+            //     ease: 'power2.inOut',
             // },'start')
+            .to('.video-list .swiper-slide',{
+                x:listWidth,
+                // stagger:0.05,
+                stagger:{
+                    from:"end", 
+                    each:0.05
+                }, 
+                ease: 'Power3.easeIn',
+            },'start')
             .to('.video-list-wrap .video-dim',{
                 opacity:0,
                 onStart:function(){
@@ -413,235 +318,6 @@ function commonTween() {
             return false;
         }
     })
-    
-    
-    // $('.tada').each(function (e) {
-    //     let tada = $(this)
-    //     gsap.set(tada, {
-    //         opacity: 0,
-    //         scale:0.5
-    //     })
-    //     const upmotion = gsap.timeline({
-    //         scrollTrigger: {
-    //             trigger: $(this),
-    //             start: "0% 80%", // 앞 : 객체 , 뒤 : 페이지 전체
-    //             end: "0% 50%%", // 앞 : 객체 , 뒤 : 페이지 전체
-    //             // scrub: true, //스크롤에 반응 (없으면 자동재생)
-    //             // markers: true,
-    //             toggleActions: "play  none none none",
-    //         },
-    //     });
-    //     upmotion.to(tada, 0.5, {
-    //         opacity: 1,
-    //         scale:1,
-    //         ease: "power3.out",
-    //     })
-    //     .to(tada, 0.5, {
-    //         scale:0.9,
-    //         ease: "power3.out",
-    //     })
-
-    // })
-    // $('.fade').each(function (e) {
-    //     let text = $(this)
-    //     gsap.set(text, {
-    //         opacity:0,
-    //     })
-    //     const upmotion = gsap.timeline({
-    //         scrollTrigger: {
-    //             trigger: $(this),
-    //             start: "0% 80%", // 앞 : 객체 , 뒤 : 페이지 전체
-    //             end: "50% 50%%", // 앞 : 객체 , 뒤 : 페이지 전체
-    //             scrub: true, //스크롤에 반응 (없으면 자동재생)
-    //             markers: true,
-    //             toggleActions: "play none none reverse",
-    //         },
-    //     });
-    //     upmotion.to(text, 3, {
-    //         opacity: 1,
-    //         ease: "power3.out",
-    //         onComplete: function () {
-
-    //         }
-    //     })
-
-    // })
-    // $('.work-list').eq(0).find('.grid-item').each(function (e) {
-    //     let text = $(this).find('.thumb dt a')
-    //     const upmotion = gsap.timeline({
-    //         scrollTrigger: {
-    //             trigger: $(this),
-    //             start: "50% 90%", // 앞 : 객체 , 뒤 : 페이지 전체
-    //             end: "50% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
-    //             scrub: true, //스크롤에 반응 (없으면 자동재생)
-    //             // markers: true,
-    //             // scroller: ".contents-wrap",
-    //             toggleActions: "play complete none reverse",
-    //         },
-    //     });
-    //     upmotion.to(text,0.4, {
-    //         delay:0,
-    //         y:'10%',
-    //         ease: "none",
-    //         onComplete: function () {
-
-    //         }
-    //     })
-
-    // })
-    // $('.slide-down').each(function (e) {
-    //     let text = $(this)
-    //     const upmotion = gsap.timeline({
-    //         scrollTrigger: {
-    //             trigger: $(this),
-    //             start: "0% 80%", // 앞 : 객체 , 뒤 : 페이지 전체
-    //             end: "0% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
-    //             //                scrub: true, //스크롤에 반응 (없으면 자동재생)
-    //             //                markers: true,
-    //             toggleActions: "play complete none none",
-    //         },
-    //     });
-    //     upmotion.from(text, 1, {
-    //         y: -50,
-    //         opacity: 0,
-    //         //            ease: "power3.out",
-    //         onComplete: function () {
-
-    //         }
-    //     })
-
-    // })
-    // $('.slide-up, .about-con > *').each(function (e) {
-    //     // let text = $(this).wrapInner('<div class="over-text-con"></div>')
-    //     // let target = text.find('.over-text-con')
-    //     gsap.set($(this), {
-    //         y:40,
-    //         opacity: 0,
-    //     })
-    //     const upmotion = gsap.timeline({
-    //         scrollTrigger: {
-    //             trigger: $(this),
-    //             start: "top 80%", // 앞 : 객체 , 뒤 : 페이지 전체
-    //             end: "top 0%", // 앞 : 객체 , 뒤 : 페이지 전체
-    //             //scrub: true, //스크롤에 반응 (없으면 자동재생)
-    //             // markers: true,
-    //             toggleActions: "play none none reverse",
-    //         },
-    //     });
-    //     upmotion.to($(this), 1, {
-    //         y:0,
-    //         opacity: 1,
-    //         ease: "power1.out",
-    //     })
-
-    // })
-    
-    // ScrollTrigger.matchMedia({
-    //     "(min-width:1001px)": function () {
-    //         $('.right-slide .swiper-wrapper').each(function (e){
-    //             let slideWidth = $(this).innerWidth()
-    //             let slide = $('.right-slide .swiper-wrapper .swiper-slide').width()
-    //             let innerWidth = $('.right-slide .swiper-wrapper .swiper-slide').length
-    //             let full = slide * innerWidth
-    //             let text = $(this)
-    //             const leftMotion = gsap.timeline({
-    //                 scrollTrigger: {
-    //                     trigger: $('.highlight'),
-    //                     start: "0% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
-    //                     end: "100% 50%",
-    //                     pin:true,
-    //                     scrub: 1, //스크롤에 반응 (없으면 자동재생)
-    //                     // markers: true,
-    //                 },
-    //             });
-    //             gsap.set(text, {
-    //                 x: '0%'
-    //             })
-    //             leftMotion.to(text, 1, {
-    //                 x: - (full - slideWidth + 120),
-    //                 ease: "none",
-    //             })
-    //         })
-    //     },
-    //     "(max-width:1100px)": function () {
-    //         $('.right-slide .swiper-slide').each(function (e) {
-    //             var stagger = $(this)
-    //             gsap.set($('.mySwiper'), {
-    //                 x: '0%',
-    //                 opacity: 1,
-    //                 onComplete: function () {
-        
-    //                 }
-    //             })
-    //             gsap.set(stagger, {
-    //                 y:'20px',
-    //                 x: '0%',
-    //                 opacity: 0,
-    //                 onComplete: function () {
-        
-    //                 }
-    //             })
-    //             gsap.to(stagger, {
-    //                 scrollTrigger: {
-    //                     trigger: $(this),
-    //                     start: "0 90%", // 앞 : 객체 , 뒤 : 페이지 전체
-    //                     // scrub: true, //스크롤에 반응 (없으면 자동재생)
-    //                     // markers: true,
-    //                     toggleActions: "play none none reverse",
-    //                 },
-    //                 y:'0px',
-    //                 opacity:1,
-    //                 stagger: 0.1,
-    //                 ease: 'Power1.easeOut'
-    //             })
-                
-    //         })
-    //     },
-    // })
-    
-    // $('.over-text-wrap').each(function (e) {
-    //     $(this).find(' > *').addClass('over-text').wrapInner('<span class="over-text-con"></span>')
-    //     let text = $(this).find('.over-text-con')
-    //     const textmotion = gsap.timeline({
-    //         scrollTrigger: {
-    //             trigger: $(this),
-    //             start: "0% 80%", // 앞 : 객체 , 뒤 : 페이지 전체
-    //             end: "0% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
-    //             //                scrub: true, //스크롤에 반응 (없으면 자동재생)
-    //             // markers: true,
-    //             toggleActions: "play complete none none",
-    //         },
-    //     });
-    //     textmotion.to(text, 0.5, {
-    //         y: 0,
-    //         stagger: 0.3,
-    //         opacity: 1,
-    //         //            ease: "power2.inOut",
-    //         onComplete: function () {
-
-    //         }
-    //     })
-    // })
-    // $('.up-slide-stagger > *').each(function (e) {
-    //     var stagger = $(this)
-    //     gsap.from(stagger, {
-    //         scrollTrigger: {
-    //             trigger: $(this),
-    //             start: "0 90%", // 앞 : 객체 , 뒤 : 페이지 전체
-    //             // scrub: true, //스크롤에 반응 (없으면 자동재생)
-    //             // markers: true,
-    //             // scroller: ".contents-wrap",
-    //             toggleActions: "play none none reverse",
-    //         },
-    //         y: 40,
-    //         opacity:0,
-            
-            
-    //         stagger: 1,
-    //         ease: 'Power1.easeOut'
-    //     })
-    // })
-
 }
 
 

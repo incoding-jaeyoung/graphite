@@ -42,7 +42,6 @@
             $(".main-content .video-con").append(videoEl);
             videoEl[0].load();
             videoEl.one("loadedmetadata", () => {
-               
                count++;
                if(count === videos.length) init();
             });
@@ -385,7 +384,7 @@
    function addSwiper() {
       swiper = new Swiper(".mySwiper", {
          slidesPerView: "auto",
-         freeMode: true,
+         // freeMode: true,
          centeredSlides: true,
          slideWidth:'auto',
          spaceBetween:20,
@@ -416,9 +415,9 @@
       });
    }
 
-   function playVideo () {
+   function playVideo() {
       if(swiper) {
-         swiper.slideTo(videoIndex);
+         // swiper.slideTo(videoIndex);  자동으로 가운데로 슬라이더 오게
       }
       $(".main-content .video-con > video").each(function () {
          $(this)[0].pause();
@@ -433,22 +432,34 @@
          $(targetVideo).show().css({'z-index': ''});
       }});
       
-      // targetVideo.currentTime = 0;
+      targetVideo.currentTime = 0;
       targetVideo.play();
       timer = setInterval(() => onUpdate(), 1000/60);
       
    }
 
    function showLayerPopup ( idx ) {
+      gsap.set($(".layer-player"), { opacity:0});
+      gsap.set($(".layer-player .bar-track"), {width: 0});
       $(".layer-player").show();
       videoIndex = idx;
       $(".layer-player .popup-video > video > source").attr('src', `./video/${videos[videoIndex]}`);
       $(".layer-player dl").html($(".mySwiper .swiper-slide").eq(idx).find('dl').html());
       targetVideo = $(".layer-player .popup-video > video")[0];
       targetVideo.load();
-      targetVideo.play();
-      gsap.set($(".layer-player .bar-track"), {width: 0});
-      timer = setInterval(() => onUpdate(), 1000/60);
+      targetVideo.pause();
+      gsap.to($(".layer-player"), 0, { 
+         delay:0.4,
+         opacity:1,
+         onComplete:function(){
+           setTimeout(() => {
+               targetVideo.play();
+               timer = setInterval(() => onUpdate(), 1000/60);      
+           },500);
+         }
+      });
+      
+      
       $(".layer-player .play-btn").addClass("active").text('PAUSE');
       $(".layer-player .play-btn").on("click", function () {
          if(!$(this).is(".active")) {
@@ -470,7 +481,6 @@
          $(".layer-player .sound-btn").removeClass('active').text('Sound ON');
          $(".layer-player .popup-video > video")[0].muted = true;
       }
-      setTimem(videoIndex);
    }
 
    function closeLayerPopup () {
@@ -490,7 +500,8 @@
                $(".mySwiper .swiper-slide").eq(videoIndex).find('.timeline > span').css({width: `100%`});
                clearInterval(timer);
                if(!detail) {
-                  videoIndex++;
+                  // videoIndex++; 자동으로 다음이동
+                  videoIndex;
                   if(videoIndex === videos.length) videoIndex = 0;
                   playVideo();
                } else {
